@@ -23,6 +23,19 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
   main{max-width:var(--w-max);padding:0 var(--gap);}
 }
 /* --- custom: ここに追加 CSS を書けば OK --- */
+.button {
+  display: inline-block;
+  background-color: var(--pink);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.55rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.button:hover {
+  background-color: #e0a7c0; /* A slightly darker pink for hover effect */
+}
 </style>
 </head><body><main>
 
@@ -81,10 +94,10 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
 
 
 <h3>JPOP風</h3>
-<p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank">JPOP風の曲を聴く (suno.com)</a></p>
+<p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">JPOP風の曲を聴く (suno.com)</a></p>
 
 <h3>ボカロ風</h3>
-<p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank">ボカロ風の曲を聴く (suno.com)</a></p>
+<p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風の曲を聴く (suno.com)</a></p>
 
 <h3>GenSpark で作成したプレゼン資料</h3>
 <iframe src="★ここに GenSpark 資料の共有 URL★" title="GenSpark slide"></iframe>
