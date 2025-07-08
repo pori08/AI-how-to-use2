@@ -31,10 +31,17 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
   border-radius: 0.55rem;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .button:hover {
   background-color: #e0a7c0; /* A slightly darker pink for hover effect */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+.button:active {
+  background-color: #cc8da6; /* Even darker when pressed */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
 }
 </style>
 </head><body><main>
@@ -94,10 +101,10 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
 
 
 <h3>JPOP風</h3>
-<p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">JPOP風の曲を聴く (suno.com)</a></p>
+<p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">J-POP風▶再生</a></p>
 
 <h3>ボカロ風</h3>
-<p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風の曲を聴く (suno.com)</a></p>
+<p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風▶再生</a></p>
 
 <h3>GenSpark で作成したプレゼン資料</h3>
 <iframe src="★ここに GenSpark 資料の共有 URL★" title="GenSpark slide"></iframe>
