@@ -2,57 +2,253 @@
 <meta charset="utf-8">
 <title>無料で試せる生成AI 早見ガイド 2025</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-:root{
-  --pink:#f7c4d9;--base:#333;--sub:#666;--bg:#fff7fb;
-  --radius:1rem;--gap:1rem;--w-max:760px;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;
+/* Reset and Base */
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  --primary-color: #4a90e2; /* A professional blue */
+  --secondary-color: #f3f8ff; /* A very light blue-gray for backgrounds */
+  --text-color: #333;
+  --text-color-light: #555;
+  --border-color: #e0e0e0;
+  --background-color: #ffffff;
+  --card-background: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --content-width: 800px;
+  --spacing-unit: 1rem;
 }
-body{margin:0;background:var(--bg);color:var(--base);line-height:1.6;padding:0 var(--gap);}
-h1{font-size:1.45rem;text-align:center;margin:1.6rem 0 1rem;}
-h2{font-size:1.15rem;border-left:.4rem solid var(--pink);padding-left:.6rem;margin:2.4rem 0 .9rem;}
-table{width:100%;border-collapse:collapse;font-size:.92rem;}
-th,td{padding:.55rem;border:1px solid #ddd;word-break:keep-all;}
-th{background:#fafafa;text-align:left;}
-.card{background:#fff;border-radius:var(--radius);padding:1.25rem;margin-bottom:var(--gap);box-shadow:0 2px 4px #0001;}
-.badge{display:inline-block;background:var(--pink);padding:.12rem .55rem;border-radius:.55rem;font-size:.75rem;color:#fff;margin-left:.45rem;}
-.hint{font-size:.78rem;color:var(--sub);}
-iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2px 4px #0001;margin:.8rem 0;}
- @media(min-width:680px){
-  body{padding:0;display:flex;justify-content:center}
-  main{max-width:var(--w-max);padding:0 var(--gap);}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-/* --- custom: ここに追加 CSS を書けば OK --- */
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef); /* Subtle gradient */
+  color: var(--text-color);
+  line-height: 1.7;
+}
+main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 1.5);
+}
+@media (min-width: 768px) {
+  main {
+    padding: calc(var(--spacing-unit) * 3);
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(to right, var(--primary-color), #6a5acd); /* More prominent gradient */
+  color: #fff;
+  padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+  text-align: center;
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.hero-section h1 {
+  color: #fff; /* Override h1 color for hero */
+  margin-bottom: 0;
+}
+
+/* Typography */
+h1, h2 {
+  font-weight: 700;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  color: var(--primary-color);
+}
+h2 {
+  font-size: 1.5rem;
+  margin: calc(var(--spacing-unit) * 3) 0 calc(var(--spacing-unit) * 1.5);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  display: flex; /* For icon alignment */
+  align-items: center;
+  gap: 0.5rem;
+}
+h2 i {
+  color: var(--primary-color);
+}
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-unit);
+    color: var(--text-color);
+}
+
+/* Tables */
+.table-container {
+    overflow-x: auto; /* Make table scrollable on mobile */
+    background: var(--card-background);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: var(--spacing-unit);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+th, td {
+  padding: var(--spacing-unit);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap; /* Prevent wrapping in table cells */
+}
+th {
+  font-weight: 600;
+  background-color: var(--secondary-color);
+}
+tbody tr:last-child th,
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+tbody tr:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Sections & Cards */
+section {
+  margin-bottom: calc(var(--spacing-unit) * 3);
+}
+.step-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-unit);
+}
+@media (min-width: 768px) {
+  .step-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.step-card {
+  background: var(--card-background);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing-unit) * 1.5);
+  text-align: center;
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  border: 1px solid var(--border-color);
+}
+.step-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  margin: 0 auto var(--spacing-unit);
+}
+.step-card i { /* Icon for step card */
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+.step-text {
+  font-size: 1rem;
+  color: var(--text-color-light);
+}
+
+/* Content Blocks (for SUNO, GenSpark, Manus) */
+.content-block {
+  background: var(--card-background);
+  border-radius: var(--radius);
+  padding: calc(var(--spacing-unit) * 1.5);
+  margin-bottom: var(--spacing-unit); /* Adjusted margin */
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  border: 1px solid var(--border-color);
+}
+.content-block-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+.content-block-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color-light);
+}
+
+/* Audio List Components */
+.audio-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-unit);
+  justify-content: center; /* Center items if there's space */
+}
+
+.audio-item {
+  flex: 1; /* Allow items to grow and shrink */
+  min-width: 200px; /* Minimum width for each item */
+  background-color: var(--secondary-color); /* Light background for each item */
+  border-radius: var(--radius);
+  padding: var(--spacing-unit);
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.audio-style {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* Other Components */
 .button {
   display: inline-block;
-  background-color: var(--pink);
+  background-color: var(--primary-color);
   color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.55rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 .button:hover {
-  background-color: #e0a7c0; /* A slightly darker pink for hover effect */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background-color: #3a7ac2; /* Darker blue */
 }
 .button:active {
-  background-color: #cc8da6; /* Even darker when pressed */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transform: translateY(2px);
+  transform: scale(0.98);
 }
-.step-container { display: flex; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; }
-.step-card { background: #fff; border-radius: var(--radius); padding: 1.5rem; text-align: center; flex: 1; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.step-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
-.step-number { font-size: 2rem; font-weight: bold; color: var(--pink); line-height: 1; margin-bottom: 1rem; }
-.step-text { font-size: 0.95rem; color: var(--base); }
-@media(max-width: 680px) { .step-container { flex-direction: column; } }
+.hint {
+  font-size: 0.9rem;
+  color: var(--text-color-light);
+  text-align: center;
+  display: block;
+  margin-top: var(--spacing-unit);
+}
+iframe, .tiktok-embed {
+  border-radius: var(--radius);
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  margin: var(--spacing-unit) auto;
+}
+.tiktok-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-unit);
+    justify-content: center;
+}
+</style>
 </style>
 </head><body><main>
 
+<div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
+</div>
 
 <!-- ① タスク × AI 対応表 -->
 <section>
@@ -109,20 +305,29 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
 <section>
 <h2>AI 生成コンテンツ&nbsp;活用事例</h2>
 
-<h3>SUNO で作曲した BGM</h3>
+<div class="content-block">
+  <div class="content-block-title">SUNO で作曲した BGM</div>
+  <div class="audio-list">
+    <div class="audio-item">
+      <div class="audio-style">JPOP風</div>
+      <p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">J-POP風▶再生</a></p>
+    </div>
+    <div class="audio-item">
+      <div class="audio-style">ボカロ風</div>
+      <p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風▶再生</a></p>
+    </div>
+  </div>
+</div>
 
+<div class="content-block">
+  <div class="content-block-title">GenSpark で作成したプレゼン資料</div>
+  <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" target="_blank" class="button">GenSpark 資料を見る</a></p>
+</div>
 
-<h3>JPOP風</h3>
-<p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">J-POP風▶再生</a></p>
-
-<h3>ボカロ風</h3>
-<p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風▶再生</a></p>
-
-<h3>GenSpark で作成したプレゼン資料</h3>
-<iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" title="GenSpark slide - Why Invest in Stocks" style="width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2px 4px #0001;margin:.8rem 0;"></iframe>
-
-<h3>Manus で作成したプレゼン資料</h3>
-<iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" title="Manus slide - Invest" style="width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2px 4px #0001;margin:.8rem 0;"></iframe>
+<div class="content-block">
+  <div class="content-block-title">Manus で作成したプレゼン資料</div>
+  <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" target="_blank" class="button">Manus 資料を見る</a></p>
+</div>
 
 <h3>Veo&nbsp;3 で生成した短尺動画</h3>
 <div class="tiktok-wrap" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
@@ -148,7 +353,7 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
 
 <!-- ⑤ ３ステップ -->
 <section>
-<h2>使い方は簡単&nbsp;3&nbsp;ステップ</h2>
+<h2><i class="fas fa-list-ol"></i> 使い方は簡単&nbsp;3&nbsp;ステップ</h2>
 <div class="step-container">
   <div class="step-card">
     <div class="step-number">1</div>
@@ -159,7 +364,7 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:.6rem;box-shadow:0 2p
     <div class="step-text">メールアドレス / Google<br>アカウントで無料登録</div>
   </div>
   <div class="step-card">
-    <div class="step-number">3</div>
+    <i class="fas fa-share-alt"></i>
     <div class="step-text">テキスト・画像などを入力し<br>生成結果を共有</div>
   </div>
 </div>
