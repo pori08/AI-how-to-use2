@@ -507,40 +507,75 @@ footer {
 
 /* Pixel AI Character Loader */
 .pixel-loader {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   background-color: var(--primary-color);
   position: relative;
   animation: bounce 1s infinite alternate;
-  border-radius: 5px;
+  border-radius: 15px; /* More rounded */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pixel-loader::before, .pixel-loader::after {
   content: '';
   position: absolute;
   background-color: #fff;
-  border-radius: 2px;
 }
 
 .pixel-loader::before { /* Eyes */
-  width: 8px;
-  height: 8px;
-  top: 15px;
+  width: 10px;
+  height: 10px;
+  top: 20px;
   left: 15px;
-  box-shadow: 20px 0 #fff;
+  border-radius: 50%;
+  box-shadow: 40px 0 #fff; /* Two eyes */
 }
 
 .pixel-loader::after { /* Mouth */
-  width: 20px;
-  height: 4px;
+  width: 30px;
+  height: 5px;
   bottom: 15px;
   left: 20px;
+  border-radius: 2px;
   background-color: #333;
 }
 
 @keyframes bounce {
   0% { transform: translateY(0); }
   100% { transform: translateY(-10px); }
+}
+
+.speech-bubble {
+  position: absolute;
+  top: -50px; /* Position above the loader */
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: -1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </style>
@@ -726,6 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <div class="loader-wrapper">
   <div class="pixel-loader"></div>
+  <div class="speech-bubble">読み込み中...</div>
 </div>
 <script>
 window.addEventListener('load', () => {
