@@ -134,8 +134,11 @@ tbody tr:last-child th,
 tbody tr:last-child td {
     border-bottom: 0;
 }
-tbody tr:hover {
+tbody tr:nth-child(even) {
     background-color: var(--secondary-color);
+}
+tbody tr:hover {
+    background-color: #e0eafc; /* A slightly darker hover color */
 }
 
 /* Sections & Cards */
@@ -159,6 +162,11 @@ section {
   text-align: center;
   box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
   border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px var(--shadow-color);
 }
 .step-number {
   font-size: 1.5rem;
@@ -189,6 +197,11 @@ section {
   margin-bottom: var(--spacing-unit); /* Adjusted margin */
   box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
   border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.content-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px var(--shadow-color);
 }
 .content-block-title {
   font-size: 1.2rem;
@@ -311,6 +324,17 @@ footer {
   text-decoration: none;
   font-size: 1.5rem;
 }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </style>
 </head><body><main>
@@ -325,7 +349,7 @@ footer {
 </div>
 
 <!-- ① タスク × AI 対応表 -->
-<section id="section-tasks">
+<section id="section-tasks" class="fade-in">
 <h2>目的別&nbsp;⇆&nbsp;主要AIツール対応表</h2>
 <table>
 <thead><tr><th>目的</th><th>主に使うAIツール</th></tr></thead>
@@ -349,7 +373,7 @@ footer {
 </section>
 
 <!-- ② シーン別 使い分け例 -->
-<section id="section-scenes">
+<section id="section-scenes" class="fade-in">
 <h2>シーン別&nbsp;おすすめAI</h2>
 <table>
 <thead><tr><th>シーン</th><th>ベストAI</th><th>理由</th></tr></thead>
@@ -376,7 +400,7 @@ footer {
 
 
 <!-- ④ 活用事例セクション -->
-<section id="section-examples">
+<section id="section-examples" class="fade-in">
 <h2>AI 生成コンテンツ&nbsp;活用事例</h2>
 
 <div class="content-block">
@@ -428,7 +452,7 @@ footer {
 </section>
 
 <!-- ⑤ ３ステップ -->
-<section>
+<section class="fade-in">
 <h2><i class="fas fa-list-ol"></i> 使い方は簡単&nbsp;3&nbsp;ステップ</h2>
 <div class="step-container">
   <div class="step-card">
@@ -452,4 +476,21 @@ footer {
   <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 </footer>
 <script async src="https://www.tiktok.com/embed.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const fadeInElements = document.querySelectorAll(".fade-in");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.1 });
+
+  fadeInElements.forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>
 </body></html>
