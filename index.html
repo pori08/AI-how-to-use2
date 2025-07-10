@@ -57,6 +57,27 @@ main {
   margin-bottom: 0;
 }
 
+.page-nav {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.page-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  background-color: rgba(255,255,255,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.page-nav a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
 /* Typography */
 h1, h2 {
   font-weight: 700;
@@ -174,6 +195,13 @@ section {
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content-block-title i {
+  color: var(--primary-color);
 }
 .content-block-subtitle {
   font-size: 1rem;
@@ -181,6 +209,9 @@ section {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   color: var(--text-color-light);
+}
+.content-block p {
+  text-align: center;
 }
 
 /* Audio List Components */
@@ -208,21 +239,43 @@ section {
 }
 
 /* Other Components */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  40% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
 .button {
   display: inline-block;
-  background-color: var(--primary-color);
-  color: #fff;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: #fff;
+  background: linear-gradient(to bottom, #5dadec, #4a90e2);
+  border: 1px solid #3a7ac2;
+  box-shadow: 0 5px 0 #3a7ac2, 0 6px 12px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.1s ease-out;
+}
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%);
+  animation: shine 5s infinite ease-in-out;
 }
 .button:hover {
-  background-color: #3a7ac2; /* Darker blue */
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #3a7ac2, 0 8px 15px rgba(0,0,0,0.25);
 }
 .button:active {
-  transform: scale(0.98);
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3a7ac2, 0 3px 6px rgba(0,0,0,0.2);
 }
 .hint {
   font-size: 0.9rem;
@@ -242,16 +295,37 @@ iframe, .tiktok-embed {
     gap: var(--spacing-unit);
     justify-content: center;
 }
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: var(--secondary-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.back-to-top {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+}
 </style>
 </style>
 </head><body><main>
 
 <div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
+<nav class="page-nav">
+  <a href="#section-tasks">目的別</a>
+  <a href="#section-scenes">シーン別</a>
+  <a href="#section-examples">活用事例</a>
+</nav>
 </div>
 
 <!-- ① タスク × AI 対応表 -->
-<section>
+<section id="section-tasks">
 <h2>目的別&nbsp;⇆&nbsp;主要AIツール対応表</h2>
 <table>
 <thead><tr><th>目的</th><th>主に使うAIツール</th></tr></thead>
@@ -275,7 +349,7 @@ iframe, .tiktok-embed {
 </section>
 
 <!-- ② シーン別 使い分け例 -->
-<section>
+<section id="section-scenes">
 <h2>シーン別&nbsp;おすすめAI</h2>
 <table>
 <thead><tr><th>シーン</th><th>ベストAI</th><th>理由</th></tr></thead>
@@ -302,11 +376,11 @@ iframe, .tiktok-embed {
 
 
 <!-- ④ 活用事例セクション -->
-<section>
+<section id="section-examples">
 <h2>AI 生成コンテンツ&nbsp;活用事例</h2>
 
 <div class="content-block">
-  <div class="content-block-title">SUNO で作曲した BGM</div>
+  <div class="content-block-title"><i class="fas fa-music"></i> SUNO で作曲した BGM</div>
   <div class="audio-list">
     <div class="audio-item">
       <div class="audio-style">JPOP風</div>
@@ -320,32 +394,34 @@ iframe, .tiktok-embed {
 </div>
 
 <div class="content-block">
-  <div class="content-block-title">GenSpark で作成したプレゼン資料</div>
+  <div class="content-block-title"><i class="fas fa-file-powerpoint"></i> GenSpark で作成したプレゼン資料</div>
   <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" target="_blank" class="button">GenSpark 資料を見る</a></p>
 </div>
 
 <div class="content-block">
-  <div class="content-block-title">Manus で作成したプレゼン資料</div>
+  <div class="content-block-title"><i class="fas fa-file-alt"></i> Manus で作成したプレゼン資料</div>
   <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" target="_blank" class="button">Manus 資料を見る</a></p>
 </div>
 
-<h3>Veo&nbsp;3 で生成した短尺動画</h3>
-<div class="tiktok-wrap" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
-  <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:100%;">
-    <section>
-      <a target="_blank" href="https://www.tiktok.com/@stanislav_laurier?refer=embed">@stanislav_laurier</a>
-    </section>
-  </blockquote>
-  <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@asmraiworks/video/7516993127152930078?is_copy_url=1&is_from_webapp=v1" data-video-id="7516993127152930078" style="max-width:100%;">
-    <section>
-      <a target="_blank" href="https://www.tiktok.com/@asmraiworks?refer=embed">@asmraiworks</a>
-    </section>
-  </blockquote>
-  <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aiinterview7/video/7522011573141982482?is_copy_url=1&is_from_webapp=v1" data-video-id="7522011573141982482" style="max-width:100%;">
-    <section>
-      <a target="_blank" href="https://www.tiktok.com/@aiinterview7?refer=embed">@aiinterview7</a>
-    </section>
-  </blockquote>
+<div class="content-block">
+  <div class="content-block-title"><i class="fas fa-video"></i> Veo&nbsp;3 で生成した短尺動画</div>
+  <div class="tiktok-wrap" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:100%;">
+      <section>
+        <a target="_blank" href="https://www.tiktok.com/@stanislav_laurier?refer=embed">@stanislav_laurier</a>
+      </section>
+    </blockquote>
+    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@asmraiworks/video/7516993127152930078?is_copy_url=1&is_from_webapp=v1" data-video-id="7516993127152930078" style="max-width:100%;">
+      <section>
+        <a target="_blank" href="https://www.tiktok.com/@asmraiworks?refer=embed">@asmraiworks</a>
+      </section>
+    </blockquote>
+    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aiinterview7/video/7522011573141982482?is_copy_url=1&is_from_webapp=v1" data-video-id="7522011573141982482" style="max-width:100%;">
+      <section>
+        <a target="_blank" href="https://www.tiktok.com/@aiinterview7?refer=embed">@aiinterview7</a>
+      </section>
+    </blockquote>
+  </div>
 </div>
 
 <p class="hint">※ 各リンクは公開設定の URL に置き換えてください。</p>
@@ -371,5 +447,9 @@ iframe, .tiktok-embed {
 </section>
 
 </main>
+<footer>
+  <p>&copy; 2025 無料で試せる生成AI 早見ガイド</p>
+  <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+</footer>
 <script async src="https://www.tiktok.com/embed.js"></script>
 </body></html>
