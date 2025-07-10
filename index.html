@@ -35,6 +35,40 @@ main {
   margin: 0 auto;
   padding: calc(var(--spacing-unit) * 1.5);
 }
+@media (max-width: 767px) {
+  main {
+    padding: var(--spacing-unit);
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin: calc(var(--spacing-unit) * 2) 0 calc(var(--spacing-unit) * 1);
+  }
+  section {
+    margin-bottom: calc(var(--spacing-unit) * 2);
+  }
+  .hero-section {
+    padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 2);
+  }
+  .page-nav {
+    gap: 0.5rem;
+  }
+  .page-nav a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  .content-block,
+  .step-card {
+    padding: var(--spacing-unit);
+  }
+  .button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
 @media (min-width: 768px) {
   main {
     padding: calc(var(--spacing-unit) * 3);
@@ -260,6 +294,9 @@ section {
 .button {
   display: inline-block;
   padding: 0.75rem 1.5rem;
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px; /* Minimum touch target size */
+  box-sizing: border-box; /* Include padding in min-width/height */
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 600;
