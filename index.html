@@ -290,19 +290,6 @@ section {
     background-color: var(--border-color);
     z-index: -1;
   }
-  .step-card:not(:last-child)::after {
-    content: ''; /* Font Awesome right arrow */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    right: calc(var(--spacing-unit) * -0.5);
-    top: 50%;
-    transform: translate(50%, -50%);
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    background-color: var(--background-color);
-    padding: 0 0.5rem;
-  }
 }
 .step-card {
   background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
@@ -314,7 +301,6 @@ section {
   text-align: center;
   box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative; /* For arrow positioning */
 }
 .step-card:hover {
   transform: translateY(-5px);
