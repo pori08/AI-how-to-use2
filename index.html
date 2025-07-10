@@ -505,18 +505,42 @@ footer {
   transition: opacity 0.5s ease-out;
 }
 
-.loader {
-  border: 8px solid var(--secondary-color);
-  border-top: 8px solid var(--primary-color);
-  border-radius: 50%;
+/* Pixel AI Character Loader */
+.pixel-loader {
   width: 60px;
   height: 60px;
-  animation: spin 2s linear infinite;
+  background-color: var(--primary-color);
+  position: relative;
+  animation: bounce 1s infinite alternate;
+  border-radius: 5px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.pixel-loader::before, .pixel-loader::after {
+  content: '';
+  position: absolute;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.pixel-loader::before { /* Eyes */
+  width: 8px;
+  height: 8px;
+  top: 15px;
+  left: 15px;
+  box-shadow: 20px 0 #fff;
+}
+
+.pixel-loader::after { /* Mouth */
+  width: 20px;
+  height: 4px;
+  bottom: 15px;
+  left: 20px;
+  background-color: #333;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
 }
 </style>
 </style>
@@ -701,7 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <div class="loader-wrapper">
-  <div class="loader"></div>
+  <div class="pixel-loader"></div>
 </div>
 <script>
 window.addEventListener('load', () => {
