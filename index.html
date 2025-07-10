@@ -499,9 +499,10 @@ footer {
   height: 100%;
   background-color: var(--background-color);
   display: flex;
+  flex-direction: column; /* Stack items vertically */
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 99999; /* Very high z-index */
   transition: opacity 0.5s ease-out;
 }
 
@@ -516,6 +517,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px; /* Space for speech bubble */
 }
 
 .pixel-loader::before, .pixel-loader::after {
@@ -548,8 +550,7 @@ footer {
 }
 
 .speech-bubble {
-  position: absolute;
-  top: -50px; /* Position above the loader */
+  position: relative; /* Relative to loader-wrapper */
   background-color: #fff;
   border-radius: 10px;
   padding: 8px 12px;
@@ -563,14 +564,14 @@ footer {
 .speech-bubble::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  top: -8px; /* Position above the bubble */
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: -1;
+  z-index: -1; /* Ensure it's behind the bubble content */
 }
 
 @keyframes fadeIn {
