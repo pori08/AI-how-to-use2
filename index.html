@@ -274,10 +274,34 @@ section {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-unit);
+  position: relative;
 }
 @media (min-width: 768px) {
   .step-container {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .step-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--border-color);
+    z-index: -1;
+  }
+  .step-card:not(:last-child)::after {
+    content: ''; /* Font Awesome right arrow */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: calc(var(--spacing-unit) * -0.5);
+    top: 50%;
+    transform: translate(50%, -50%);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    background-color: var(--background-color);
+    padding: 0 0.5rem;
   }
 }
 .step-card {
@@ -290,6 +314,7 @@ section {
   text-align: center;
   box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; /* For arrow positioning */
 }
 .step-card:hover {
   transform: translateY(-5px);
@@ -307,7 +332,7 @@ section {
   margin: 0 auto var(--spacing-unit);
 }
 .step-card i { /* Icon for step card */
-  font-size: 2rem;
+  font-size: 2.5rem; /* Larger icon size */
   color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
@@ -629,20 +654,24 @@ footer {
 
 <!-- ⑤ ３ステップ -->
 <section class="fade-in">
-<h2><i class="fas fa-list-ol"></i> 使い方は簡単&nbsp;3&nbsp;ステップ</h2>
+<h2><i class="fas fa-rocket"></i> 生成AIを始める3ステップ</h2>
 <div class="step-container">
   <div class="step-card">
-    <div class="step-number">1</div>
+    <i class="fas fa-download"></i>
     <div class="step-text">アプリをインストール<br>(またはブラウザで開く)</div>
   </div>
   <div class="step-card">
-    <div class="step-number">2</div>
+    <i class="fas fa-user-plus"></i>
     <div class="step-text">メールアドレス / Google<br>アカウントで無料登録</div>
   </div>
   <div class="step-card">
-    <i class="fas fa-share-alt"></i>
+    <i class="fas fa-magic"></i>
     <div class="step-text">テキスト・画像などを入力し<br>生成結果を共有</div>
   </div>
+</div>
+<div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);">
+  <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-light);">さあ、あなたも生成AIを体験してみましょう！</p>
+  <a href="#section-tasks" class="button">AIツールリストを見る</a>
 </div>
 </section>
 
