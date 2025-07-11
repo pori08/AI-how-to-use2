@@ -4,373 +4,611 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-/* RICHER DESIGN SYSTEM */
-:root {
-    --font-family: 'Sawarabi Gothic', 'Noto Sans JP', sans-serif;
-    --primary-color: #8A2BE2; /* Vibrant Purple */
-    --primary-color-rgb: 138, 43, 226;
-    --secondary-color: #483D8B; /* Dark Slate Blue */
-    --accent-color: #00BFFF; /* Deep Sky Blue */
-    --accent-color-rgb: 0, 191, 255;
-    --text-color: #E6E6FA; /* Lavender */
-    --text-color-dark: #A9A9A9; /* Dark Gray */
-    --background-color: #121212; /* Near Black */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --radius: 16px;
-    --content-width: 900px;
-    --spacing-unit: 1.2rem;
+::selection {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
-/* Base & Scrollbar */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-    font-family: var(--font-family);
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.8;
-    overflow-x: hidden;
-    perspective: 1000px;
+::-moz-selection {
+  background-color: var(--primary-color);
+  color: #fff;
 }
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: var(--background-color); }
+
+/* Reset and Base */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+  border-radius: 10px;
+}
+
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    border-radius: 10px;
-    border: 2px solid var(--background-color);
+  background: var(--primary-color);
+  border-radius: 10px;
+  border: 2px solid var(--secondary-color);
 }
 
-/* Main Layout */
+::-webkit-scrollbar-thumb:hover {
+  background: #3a7ac2;
+}
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  --primary-color: #4a90e2; /* A professional blue */
+  --primary-color-rgb: 74, 144, 226; /* RGB for --primary-color */
+  --secondary-color: #f3f8ff; /* A very light blue-gray for backgrounds */
+  --secondary-color-rgb: 243, 248, 255; /* RGB for --secondary-color */
+  --text-color: #333;
+  --text-color-light: #555;
+  --border-color: #e0e0e0;
+  --background-color: #ffffff;
+  --card-background: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --content-width: 800px;
+  --spacing-unit: 1rem;
+}
+html {
+  scroll-behavior: smooth;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef); /* Subtle gradient */
+  color: var(--text-color);
+  line-height: 1.7;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(var(--primary-color-rgb), 0.1) 0%, rgba(var(--secondary-color-rgb), 0.1) 100%);
+  background-size: 400% 400%;
+  animation: backgroundAnimation 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes backgroundAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 main {
-    max-width: var(--content-width);
-    margin: 0 auto;
-    padding: calc(var(--spacing-unit) * 2);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 1.5);
+}
+@media (max-width: 767px) {
+  main {
+    padding: var(--spacing-unit);
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin: calc(var(--spacing-unit) * 2) 0 calc(var(--spacing-unit) * 1);
+  }
+  section {
+    margin-bottom: calc(var(--spacing-unit) * 2);
+  }
+  .hero-section {
+    padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 2);
+  }
+  .page-nav {
+    gap: 0.5rem;
+  }
+  .page-nav a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  .content-block,
+  .step-card {
+    padding: var(--spacing-unit);
+  }
+  .button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  th, td {
+    font-size: 0.85rem; /* Smaller font for table cells on mobile */
+    padding: 0.4rem 0.6rem; /* Further reduced padding for table cells on mobile */
+  }
+}
+@media (min-width: 768px) {
+  main {
+    padding: calc(var(--spacing-unit) * 3);
+  }
 }
 
 /* Hero Section */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .hero-section {
-    position: relative;
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 var(--spacing-unit);
-    overflow: hidden;
-    border-bottom: 2px solid var(--glass-border);
-}
-#hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    filter: blur(5px) brightness(0.4);
-}
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at center, rgba(var(--primary-color-rgb), 0.3) 0%, rgba(var(--background-color-rgb), 0.9) 70%);
-    z-index: -1;
+  background: linear-gradient(270deg, var(--primary-color), #6a5acd, #4a90e2);
+  background-size: 200% 200%;
+  animation: gradientAnimation 10s ease infinite;
+  color: #fff;
+  padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+  text-align: center;
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 .hero-section h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 0 0 15px rgba(var(--accent-color-rgb), 0.7), 0 0 30px rgba(var(--primary-color-rgb), 0.5);
-    animation: glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow {
-    from { text-shadow: 0 0 10px #fff, 0 0 20px var(--accent-color), 0 0 30px var(--primary-color); }
-    to { text-shadow: 0 0 20px #fff, 0 0 30px var(--accent-color), 0 0 40px var(--primary-color); }
+  color: #fff; /* Override h1 color for hero */
+  margin-bottom: 0;
 }
 
-/* Navigation */
 .page-nav {
-    margin-top: 2rem;
-    display: flex;
-    gap: 1rem;
-}
-.page-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 0.7rem 1.5rem;
-    border-radius: var(--radius);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    transform-style: preserve-3d;
-}
-.page-nav a:hover {
-    background: rgba(var(--accent-color-rgb), 0.3);
-    border-color: var(--accent-color);
-    transform: translateY(-5px) translateZ(10px);
-    box-shadow: 0 10px 20px rgba(var(--accent-color-rgb), 0.2);
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
-/* Section & Typography */
-section {
-    margin-bottom: calc(var(--spacing-unit) * 4);
-    position: relative;
+.page-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  background-color: rgba(255,255,255,0.1);
+  transition: background-color 0.2s ease;
+}
+
+.page-nav a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.progress-container {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #fff;
+  width: 0%;
+}
+
+/* Typography */
+h1, h2 {
+  font-weight: 700;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  background: linear-gradient(to right, #ffffff, #e0e0e0); /* White to light gray gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback for non-webkit browsers */
 }
 h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-    background: linear-gradient(90deg, var(--accent-color), #fff, var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid;
-    border-image: linear-gradient(90deg, transparent, var(--primary-color), transparent) 1;
+  font-size: 1.5rem;
+  margin: calc(var(--spacing-unit) * 3) 0 calc(var(--spacing-unit) * 1.5);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  display: flex; /* For icon alignment */
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(to right, var(--primary-color), #6a5acd); /* Primary to purple gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback for non-webkit browsers */
+}
+h2 i {
+  color: var(--primary-color);
+}
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-unit);
+    color: var(--text-color);
 }
 
-/* Glassmorphism Cards */
-.content-block, .step-card, table {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+/* Tables */
+.table-container {
+    overflow-x: auto; /* Make table scrollable on mobile */
+    background: var(--card-background);
     border-radius: var(--radius);
-    padding: calc(var(--spacing-unit) * 1.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform-style: preserve-3d;
-}
-.content-block:hover, .step-card:hover {
-    transform: translateY(-10px) translateZ(20px) rotateX(5deg);
-    box-shadow: 0 16px 40px 0 rgba(var(--primary-color-rgb), 0.3);
-}
-
-/* Table Styling */
-.table-container { padding: 0; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-th, td {
+    box-shadow: 0 4px 12px var(--shadow-color);
     padding: var(--spacing-unit);
-    text-align: left;
-    border-bottom: 1px solid var(--glass-border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+th, td {
+  padding: var(--spacing-unit);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  /* Removed white-space: nowrap; to allow text wrapping */
 }
 th {
-    font-weight: 600;
-    color: var(--accent-color);
-    background-color: rgba(var(--accent-color-rgb), 0.1);
+  font-weight: 600;
+  background-color: var(--secondary-color);
 }
-tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-tbody tr { transition: background-color 0.3s ease; }
-tbody tr:hover { background-color: rgba(var(--primary-color-rgb), 0.2); }
+tbody tr:last-child th,
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+tbody tr:nth-child(even) {
+    background-color: var(--secondary-color);
+}
+tbody tr:hover {
+    background-color: #e0eafc; /* A slightly darker hover color */
+}
 
-/* Step Cards */
+/* Sections & Cards */
+section {
+  margin-bottom: calc(var(--spacing-unit) * 3);
+}
 .step-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-unit);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-unit);
+  position: relative;
 }
-.step-card { text-align: center; }
-.step-card i {
-    font-size: 3rem;
-    background: -webkit-linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-    transition: transform 0.3s ease;
-}
-.step-card:hover i { transform: scale(1.2) rotate(10deg); }
-
-/* Button */
-.button {
-    display: inline-block;
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-weight: 600;
-    color: #fff;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    transform-style: preserve-3d;
-}
-.button:hover {
-    transform: translateY(-5px) translateZ(10px);
-    box-shadow: 0 10px 25px rgba(var(--accent-color-rgb), 0.4);
-}
-.button::before {
+@media (min-width: 768px) {
+  .step-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .step-container::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-    transition: left 0.5s ease;
-}
-.button:hover::before { left: 100%; }
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 2rem;
-    margin-top: 2rem;
-    background: var(--glass-bg);
-    border-top: 1px solid var(--glass-border);
-}
-
-/* Loader */
-.loader-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--background-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    transition: opacity 0.8s ease-out;
-}
-.atom-loader {
-    width: 100px;
-    height: 100px;
-    position: relative;
-}
-.atom-loader .electron {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: var(--accent-color);
-    animation: spin 1.5s linear infinite;
-}
-.atom-loader .electron:nth-child(2) {
-    animation-delay: -0.5s;
-    border-top-color: var(--primary-color);
-    transform: rotate(120deg);
-}
-.atom-loader .electron:nth-child(3) {
-    animation-delay: -1s;
-    border-top-color: #fff;
-    transform: rotate(240deg);
-}
-.atom-loader .nucleus {
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #fff, 0 0 20px var(--accent-color);
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--border-color);
+    z-index: -1;
+  }
 }
-@keyframes spin {
-    to { transform: rotate(360deg); }
+.step-card {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
+  border-radius: var(--radius);
+  padding: calc(var(--spacing-unit) * 1.5);
+  text-align: center;
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px var(--shadow-color);
+}
+.step-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  margin: 0 auto var(--spacing-unit);
+}
+.step-card i { /* Icon for step card */
+  font-size: 2.5rem; /* Larger icon size */
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+.step-text {
+  font-size: 1rem;
+  color: var(--text-color-light);
 }
 
-/* Fade-in Animation */
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* Content Blocks (for SUNO, GenSpark, Manus) */
+.content-block {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
+  border-radius: var(--radius);
+  padding: calc(var(--spacing-unit) * 1.5);
+  margin-bottom: var(--spacing-unit); /* Adjusted margin */
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+.content-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px var(--shadow-color);
+}
+.content-block-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* Scene-specific Cards */
-.scene-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.content-block-title i {
+  color: var(--primary-color);
+  transition: transform 0.2s ease;
+}
+.content-block-title i:hover {
+  transform: scale(1.1);
+}
+.content-block-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color-light);
+}
+.content-block p {
+  text-align: center;
+}
+
+/* Audio List Components */
+.audio-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-unit);
+  justify-content: center; /* Center items if there's space */
+}
+
+.audio-item {
+  flex: 1; /* Allow items to grow and shrink */
+  min-width: 200px; /* Minimum width for each item */
+  background-color: var(--secondary-color); /* Light background for each item */
+  border-radius: var(--radius);
+  padding: var(--spacing-unit);
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.audio-style {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* Other Components */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  40% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px; /* Minimum touch target size */
+  box-sizing: border-box; /* Include padding in min-width/height */
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(to bottom, #5dadec, #4a90e2);
+  border: 1px solid #3a7ac2;
+  box-shadow: 0 5px 0 #3a7ac2, 0 6px 12px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.1s ease-out;
+}
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%);
+  animation: shine 5s infinite ease-in-out;
+}
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #3a7ac2, 0 8px 15px rgba(0,0,0,0.25);
+}
+.button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3a7ac2, 0 3px 6px rgba(0,0,0,0.2);
+}
+.hint {
+  font-size: 0.9rem;
+  color: var(--text-color-light);
+  text-align: center;
+  display: block;
+  margin-top: var(--spacing-unit);
+}
+iframe, .tiktok-embed {
+  border-radius: var(--radius);
+  box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow */
+  margin: var(--spacing-unit) auto;
+}
+.tiktok-wrap {
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-unit);
-}
-.scene-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    padding: calc(var(--spacing-unit) * 1.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform-style: preserve-3d;
-}
-.scene-card:hover {
-    transform: translateY(-10px) translateZ(20px) rotateX(5deg);
-    box-shadow: 0 16px 40px 0 rgba(var(--primary-color-rgb), 0.3);
-}
-.scene-card-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-.scene-card-title i {
-    font-size: 1.8rem;
-}
-.scene-card ul {
-    list-style: none;
-    padding-left: 0;
-}
-.scene-card li {
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.scene-card li i {
-    color: var(--primary-color);
+    justify-content: center;
 }
 
-/* Responsive */
-@media (max-width: 767px) {
-    .hero-section h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-    .page-nav { flex-direction: column; align-items: center; }
-    .content-block, .step-card, table { padding: var(--spacing-unit); }
+footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: var(--secondary-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.back-to-top {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom Loading Animation */
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* Very high z-index */
+  transition: opacity 0.5s ease-out;
+}
+
+/* Pixel AI Character Loader */
+.pixel-loader {
+  width: 70px;
+  height: 70px;
+  background-color: var(--primary-color);
+  position: relative;
+  animation: bounce 1s infinite alternate; /* Existing bounce animation */
+  border-radius: 15px; /* More rounded */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Space for speech bubble */
+}
+
+.pixel-loader::before { /* Eyes */
+  content: '';
+  position: absolute;
+  background-color: #fff;
+  width: 10px;
+  height: 10px;
+  top: 20px;
+  left: 15px;
+  border-radius: 50%;
+  box-shadow: 40px 0 #fff; /* Two eyes */
+  animation: blink 2s infinite; /* New blink animation */
+}
+
+.pixel-loader::after { /* Mouth */
+  content: '';
+  position: absolute;
+  background-color: #333;
+  width: 30px;
+  height: 5px;
+  bottom: 15px;
+  left: 20px;
+  border-radius: 2px;
+  animation: mouthMove 1.5s infinite; /* New mouth animation */
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+@keyframes blink {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.1); }
+}
+
+@keyframes mouthMove {
+  0%, 100% { height: 5px; }
+  25% { height: 2px; }
+  75% { height: 8px; }
+}
+
+.speech-bubble {
+  position: relative; /* Relative to loader-wrapper */
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -8px; /* Position above the bubble */
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: -1; /* Ensure it's behind the bubble content */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head><body><main>
 
 <div class="hero-section">
-    <video autoplay loop muted playsinline id="hero-video" src="https://videos.pexels.com/video-files/853875/853875-hd_1920_1080_25fps.mp4"></video>
-    <div class="hero-overlay"></div>
-    <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
-    <nav class="page-nav">
-        <a href="#section-tasks">目的別</a>
-        <a href="#section-scenes">シーン別</a>
-        <a href="#section-examples">活用事例</a>
-    </nav>
+<h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+<nav class="page-nav">
+  <a href="#section-tasks">目的別</a>
+  <a href="#section-scenes">シーン別</a>
+  <a href="#section-examples">活用事例</a>
+</nav>
 </div>
 
 <!-- ① タスク × AI 対応表 -->
 <section id="section-tasks" class="fade-in">
-<h2><i class="fas fa-tasks"></i> 目的別&nbsp;⇆&nbsp;主要AIツール対応表</h2>
-<div class="table-container">
+<h2>目的別&nbsp;⇆&nbsp;主要AIツール対応表</h2>
 <table>
 <thead><tr><th>目的</th><th>主に使うAIツール</th></tr></thead>
 <tbody>
@@ -390,55 +628,30 @@ footer {
 <tr><td>文字起こし</td><td>OpenAI Whisper</td></tr>
 <tr><td>開発補助</td><td>Gemini CLI</td></tr>
 </tbody></table>
-</div>
 </section>
 
 <!-- ② シーン別 使い分け例 -->
 <section id="section-scenes" class="fade-in">
-<!-- scenes begin -->
-<h2><i class="fas fa-users"></i> シーン別&nbsp;おすすめAI</h2>
-<div class="scene-grid">
-  <!-- Scene 1: Content Creation -->
-  <div class="scene-card" data-tilt>
-    <div class="scene-card-title"><i class="fas fa-paint-brush"></i> コンテンツ制作</div>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> <strong>ブログ記事:</strong> Gemini, Claude</li>
-      <li><i class="fas fa-check-circle"></i> <strong>SNS投稿:</strong> ChatGPT, Canva</li>
-      <li><i class="fas fa-check-circle"></i> <strong>プレゼン資料:</strong> GenSpark, Manus</li>
-      <li><i class="fas fa-check-circle"></i> <strong>音楽・BGM:</strong> SUNO</li>
-    </ul>
-  </div>
-  <!-- Scene 2: Information Gathering -->
-  <div class="scene-card" data-tilt>
-    <div class="scene-card-title"><i class="fas fa-search"></i> 情報収集＆分析</div>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> <strong>最新情報の収集:</strong> Perplexity</li>
-      <li><i class="fas fa-check-circle"></i> <strong>論文・PDFの要約:</strong> NotebookLM</li>
-      <li><i class="fas fa-check-circle"></i> <strong>市場調査:</strong> ChatGPT (Deep Research)</li>
-      <li><i class="fas fa-check-circle"></i> <strong>データ分析:</strong> Notion AI</li>
-    </ul>
-  </div>
-  <!-- Scene 3: Workflow Efficiency -->
-  <div class="scene-card" data-tilt>
-    <div class="scene-card-title"><i class="fas fa-cogs"></i> 業務効率化</div>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> <strong>議事録作成:</strong> tl;dv, tactiq</li>
-      <li><i class="fas fa-check-circle"></i> <strong>メール作成:</strong> Gemini, ChatGPT</li>
-      <li><i class="fas fa-check-circle"></i> <strong>タスク管理:</strong> Notion AI</li>
-      <li><i class="fas fa-check-circle"></i> <strong>コード生成:</strong> Gemini CLI</li>
-    </ul>
-  </div>
-    <!-- Scene 4: Learning -->
-  <div class="scene-card" data-tilt>
-    <div class="scene-card-title"><i class="fas fa-book-open"></i> 学習・自己啓発</div>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> <strong>語学学習:</strong> ChatGPT</li>
-      <li><i class="fas fa-check-circle"></i> <strong>専門知識の習得:</strong> Perplexity</li>
-      <li><i class="fas fa-check-circle"></i> <strong>壁打ち・アイデア出し:</strong> Claude</li>
-      <li><i class="fas fa-check-circle"></i> <strong>学習計画の作成:</strong> Gemini</li>
-    </ul>
-  </div>
-</div>
+<h2>シーン別&nbsp;おすすめAI</h2>
+<table>
+<thead><tr><th>シーン</th><th>ベストAI</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>独創的ファンタジー小説</td><td>ChatGPT</td><td>創作語彙が豊富で登場人物の一貫性を保ちやすい</td></tr>
+<tr><td>穏やかなエッセイ</td><td>Claude&nbsp;4 Sonnet</td><td>自然で丁寧な語り口。長文でも破綻が少ない</td></tr>
+<tr><td>時事ネタを盛り込む記事</td><td>Gemini 2.5 Pro</td><td>最新ニュース反映の速さ＋多言語要約が強い</td></tr>
+<tr><td>ビジネスメール作成</td><td>Gemini / Claude</td><td>要件の指示だけで、丁寧なビジネスメールのドラフトを即時作成。トーンの調整も得意</td></tr>
+<tr><td>議事録の要約・タスク洗い出し</td><td>Claude / Gemini</td><td>長文の議事録テキストを貼り付けるだけで、決定事項・ToDoリスト・確認事項を構造化して抽出できる。</td></tr>
+<tr><td>競合・市場調査</td><td>Perplexity / ChatGPT (Web検索)</td><td>最新のWeb情報を基に、競合製品の比較表や市場トレンドのレポートを、出典付きで生成してくれる。</td></tr>
+<tr><td>ロゴ入り・社外提案資料</td><td>GenSpark</td><td>Brand Kit自動反映＋ストーリー立案◎</td></tr>
+<tr><td>社内共有のシンプル報告書</td><td>Manus</td><td>既存PPT→配色統一リライトが得意</td></tr>
+<tr><td>短尺動画のBGM</td><td>SUNO</td><td>ジャンル指定→商用OK楽曲を即生成</td></tr>
+<tr><td>ブログ用サムネ</td><td>ChatGPT 4o ImageGen</td><td>指示＋スタイル指定で高品質画像 (3枚/日)</td></tr>
+<tr><td>YouTube 動画要点メモ</td><td>NotebookLM</td><td>URL貼付→構造化メモ化／質問にも回答</td></tr>
+<tr><td>新商品の名前</td><td>ChatGPT</td><td>多様なアイデアと多角的な視点を提供</td></tr>
+<tr><td>SNS 投稿ネタ</td><td>Gemini</td><td>トレンド分析とターゲット層に響く表現力</td></tr>
+<tr><td>人生相談</td><td>ChatGPT 4.5</td><td>幅広い知識と共感的な対話で、多角的な視点から問題解決をサポート</td></tr>
+
+</tbody></table>
 </section>
 
 
@@ -447,9 +660,9 @@ footer {
 
 <!-- ④ 活用事例セクション -->
 <section id="section-examples" class="fade-in">
-<h2><i class="fas fa-lightbulb"></i> AI 生成コンテンツ&nbsp;活用事例</h2>
+<h2>AI 生成コンテンツ&nbsp;活用事例</h2>
 
-<div class="content-block" data-tilt>
+<div class="content-block">
   <div class="content-block-title"><i class="fas fa-music"></i> SUNO で作曲した BGM</div>
   <div class="audio-list">
     <div class="audio-item">
@@ -463,17 +676,17 @@ footer {
   </div>
 </div>
 
-<div class="content-block" data-tilt>
+<div class="content-block">
   <div class="content-block-title"><i class="fas fa-file-powerpoint"></i> GenSpark で作成したプレゼン資料</div>
   <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" target="_blank" class="button">GenSpark 資料を見る</a></p>
 </div>
 
-<div class="content-block" data-tilt>
+<div class="content-block">
   <div class="content-block-title"><i class="fas fa-file-alt"></i> Manus で作成したプレゼン資料</div>
   <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" target="_blank" class="button">Manus 資料を見る</a></p>
 </div>
 
-<div class="content-block" data-tilt>
+<div class="content-block">
   <div class="content-block-title"><i class="fas fa-video"></i> Veo&nbsp;3 で生成した短尺動画</div>
   <div class="tiktok-wrap" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
     <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:100%;">
@@ -501,21 +714,21 @@ footer {
 <section class="fade-in">
 <h2><i class="fas fa-rocket"></i> 生成AIを始める3ステップ</h2>
 <div class="step-container">
-  <div class="step-card" data-tilt>
+  <div class="step-card">
     <i class="fas fa-download"></i>
     <div class="step-text">アプリをインストール<br>(またはブラウザで開く)</div>
   </div>
-  <div class="step-card" data-tilt>
+  <div class="step-card">
     <i class="fas fa-user-plus"></i>
     <div class="step-text">メールアドレス / Google<br>アカウントで無料登録</div>
   </div>
-  <div class="step-card" data-tilt>
+  <div class="step-card">
     <i class="fas fa-magic"></i>
     <div class="step-text">テキスト・画像などを入力し<br>生成結果を共有</div>
   </div>
 </div>
 <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);">
-  <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-dark);">さあ、あなたも生成AIを体験してみましょう！</p>
+  <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-light);">さあ、あなたも生成AIを体験してみましょう！</p>
   <a href="#section-tasks" class="button">AIツールリストを見る</a>
 </div>
 </section>
@@ -526,7 +739,6 @@ footer {
   <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
 </footer>
 <script async src="https://www.tiktok.com/embed.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const fadeInElements = document.querySelectorAll(".fade-in");
@@ -535,41 +747,34 @@ document.addEventListener("DOMContentLoaded", () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
   fadeInElements.forEach(el => {
     observer.observe(el);
   });
 
-  const backToTopButton = document.querySelector('.back-to-top');
-  window.onscroll = () => {
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-      if (backToTopButton) backToTopButton.classList.add('show');
-    } else {
-      if (backToTopButton) backToTopButton.classList.remove('show');
-    }
-  };
+  window.onscroll = function() { updateProgressBar() };
 
-  VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-    max: 15,
-    speed: 400,
-    glare: true,
-    "max-glare": 0.5,
-    perspective: 1000,
-    scale: 1.05
-  });
+  function updateProgressBar() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("progressBar").style.width = scrolled + "%";
+
+    const backToTopButton = document.querySelector('.back-to-top');
+    if (winScroll > 200) { // Show button after scrolling 200px
+      backToTopButton.classList.add('show');
+    } else {
+      backToTopButton.classList.remove('show');
+    }
+  }
 });
 </script>
 <div class="loader-wrapper">
-    <div class="atom-loader">
-        <div class="electron"></div>
-        <div class="electron"></div>
-        <div class="electron"></div>
-        <div class="nucleus"></div>
-    </div>
+  <div class="pixel-loader"></div>
+  <div class="speech-bubble">読み込み中...</div>
 </div>
 <script>
 window.addEventListener('load', () => {
@@ -577,7 +782,7 @@ window.addEventListener('load', () => {
   loaderWrapper.style.opacity = '0';
   setTimeout(() => {
     loaderWrapper.style.display = 'none';
-  }, 800);
+  }, 500);
 });
 </script>
 </body></html>
