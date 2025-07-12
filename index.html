@@ -501,7 +501,7 @@ footer {
   transform: translateY(0);
 }
 
-/* Custom Loading Animation - Black Cat and Yarn (SVG) */
+/* Custom Loading Animation - Simple Black Cat */
 .loader-wrapper {
   position: fixed;
   top: 0;
@@ -515,38 +515,83 @@ footer {
   align-items: center;
   z-index: 99999;
   transition: opacity 0.5s ease-out;
-  overflow: hidden;
 }
 
-.cat-loader-svg {
-  width: 200px; /* Adjust size as needed */
-  height: 200px;
+.cat-container {
+  position: relative;
+  width: 120px;
+  height: 100px;
   margin-bottom: 20px;
 }
 
-.cat-body {
-  fill: #333; /* Black cat */
+.cat-body-simple {
+  width: 100px;
+  height: 80px;
+  background-color: #333;
+  border-radius: 50% 50% 20% 20%;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
 }
 
-.cat-eye {
-  fill: #fff;
-  animation: cat-blink-svg 3s infinite;
+.cat-head-simple {
+  width: 60px;
+  height: 50px;
+  background-color: #333;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 30px;
 }
 
-.yarn-ball-svg {
-  fill: #e74c3c; /* Red yarn */
-  transform-origin: center center;
-  animation: yarn-roll-svg 1.5s infinite linear;
+.cat-ear-left, .cat-ear-right {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 20px solid #333;
+  position: absolute;
+  top: 0;
 }
 
-.yarn-path {
-  fill: none;
-  stroke: #e74c3c; /* Red yarn color */
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 0; /* Will be set by JS */
-  stroke-dashoffset: 0; /* Will be animated by JS */
+.cat-ear-left {
+  left: 20px;
+  transform: rotate(-15deg);
+}
+
+.cat-ear-right {
+  right: 20px;
+  transform: rotate(15deg);
+}
+
+.cat-eye-simple {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 25px;
+  animation: blink 3s infinite;
+}
+
+.cat-eye-left {
+  left: 35px;
+}
+
+.cat-eye-right {
+  right: 35px;
+}
+
+.cat-tail-simple {
+  width: 15px;
+  height: 50px;
+  background-color: #333;
+  border-radius: 50% 50% 0 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform-origin: bottom center;
+  animation: tail-wag 1.5s infinite ease-in-out;
 }
 
 .loading-text {
@@ -555,14 +600,17 @@ footer {
   margin-top: 20px;
 }
 
-@keyframes cat-blink-svg {
+@keyframes blink {
   0%, 20%, 40%, 60%, 80%, 100% { transform: scaleY(1); }
   25%, 65% { transform: scaleY(0.1); }
 }
 
-@keyframes yarn-roll-svg {
+@keyframes tail-wag {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
 }
 </style>
 </style>
@@ -803,71 +851,36 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <div class="loader-wrapper">
-  <svg class="cat-loader-svg" viewBox="0 0 200 200">
-    <!-- Yarn Path (for progress) -->
-    <path class="yarn-path" id="yarnPath" d="M 20 100 C 50 50, 150 50, 180 100 S 150 150, 20 150" />
-
-    <!-- Yarn Ball -->
-    <circle class="yarn-ball-svg" cx="20" cy="100" r="15" />
-
-    <!-- Cat -->
-    <g class="cat-svg">
-      <path class="cat-body" d="M 100 120 C 80 150, 120 150, 100 120 Z" />
-      <circle class="cat-body" cx="100" cy="100" r="30" />
-      <circle class="cat-body" cx="80" cy="75" r="10" />
-      <circle class="cat-body" cx="120" cy="75" r="10" />
-      <circle class="cat-eye" cx="90" cy="90" r="3" />
-      <circle class="cat-eye" cx="110" cy="90" r="3" />
-    </g>
-  </svg>
+  <div class="cat-container">
+    <div class="cat-body-simple"></div>
+    <div class="cat-head-simple">
+      <div class="cat-ear-left"></div>
+      <div class="cat-ear-right"></div>
+      <div class="cat-eye-simple cat-eye-left"></div>
+      <div class="cat-eye-simple cat-eye-right"></div>
+    </div>
+    <div class="cat-tail-simple"></div>
+  </div>
   <div class="loading-text">読み込み中...</div>
 </div>
 <script>
 window.addEventListener('load', () => {
   const loaderWrapper = document.querySelector('.loader-wrapper');
-  const yarnPath = document.getElementById('yarnPath');
-  const yarnBall = document.querySelector('.yarn-ball-svg');
-  const cat = document.querySelector('.cat-svg');
   const loadingText = document.querySelector('.loading-text');
 
-  const pathLength = yarnPath.getTotalLength();
-  yarnPath.style.strokeDasharray = pathLength;
-  yarnPath.style.strokeDashoffset = pathLength;
-
   let progress = 0;
-  const duration = 3000; // Animation duration in ms
-  const startTime = Date.now();
-
-  function animateLoader() {
-    const elapsedTime = Date.now() - startTime;
-    progress = Math.min(1, elapsedTime / duration);
-
-    const currentLength = pathLength * (1 - progress);
-    yarnPath.style.strokeDashoffset = currentLength;
-
-    // Move yarn ball along the path
-    const point = yarnPath.getPointAtLength(pathLength * progress);
-    yarnBall.setAttribute('cx', point.x);
-    yarnBall.setAttribute('cy', point.y);
-
-    // Move cat along the path (slightly behind the yarn ball)
-    const catPoint = yarnPath.getPointAtLength(Math.max(0, pathLength * (progress - 0.05))); // Cat slightly behind
-    cat.setAttribute('transform', `translate(${catPoint.x - 100}, ${catPoint.y - 100})`); // Adjust offset for cat position
-
-    loadingText.textContent = `読み込み中... ${Math.floor(progress * 100)}%`;
-
-    if (progress < 1) {
-      requestAnimationFrame(animateLoader);
-    } else {
-      // Animation complete
+  const interval = setInterval(() => {
+    progress += Math.random() * 10; // Simulate loading progress
+    if (progress > 100) {
+      progress = 100;
+      clearInterval(interval);
       loaderWrapper.style.opacity = '0';
       setTimeout(() => {
         loaderWrapper.style.display = 'none';
       }, 500);
     }
-  }
-
-  animateLoader();
+    loadingText.textContent = `読み込み中... ${Math.floor(progress)}%`;
+  }, 100);
 });
 </script>
 </body></html>
