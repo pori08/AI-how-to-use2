@@ -501,7 +501,7 @@ footer {
   transform: translateY(0);
 }
 
-/* Custom Loading Animation - Black Cat and Yarn */
+/* Custom Loading Animation - Black Cat and Yarn (SVG) */
 .loader-wrapper {
   position: fixed;
   top: 0;
@@ -515,91 +515,38 @@ footer {
   align-items: center;
   z-index: 99999;
   transition: opacity 0.5s ease-out;
-  overflow: hidden; /* Ensure yarn doesn't overflow */
+  overflow: hidden;
 }
 
-.cat-and-yarn {
-  position: relative;
-  width: 150px; /* Adjust size as needed */
-  height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.cat-loader-svg {
+  width: 200px; /* Adjust size as needed */
+  height: 200px;
   margin-bottom: 20px;
 }
 
-.cat {
-  position: absolute;
-  width: 80px;
-  height: 60px;
-  background-color: #333; /* Black cat */
-  border-radius: 50% 50% 20% 20%;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: cat-breathe 2s infinite alternate ease-in-out;
-}
-
-.cat::before, .cat::after { /* Ears */
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 20px solid #333;
-  top: -15px;
-}
-
-.cat::before {
-  left: 5px;
-  transform: rotate(-15deg);
-}
-
-.cat::after {
-  right: 5px;
-  transform: rotate(15deg);
+.cat-body {
+  fill: #333; /* Black cat */
 }
 
 .cat-eye {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #fff;
-  border-radius: 50%;
-  top: 20px;
-  animation: cat-blink 3s infinite;
+  fill: #fff;
+  animation: cat-blink-svg 3s infinite;
 }
 
-.cat-eye.left {
-  left: 20px;
+.yarn-ball-svg {
+  fill: #e74c3c; /* Red yarn */
+  transform-origin: center center;
+  animation: yarn-roll-svg 1.5s infinite linear;
 }
 
-.cat-eye.right {
-  right: 20px;
-}
-
-.yarn-ball {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: #e74c3c; /* Red yarn */
-  border-radius: 50%;
-  left: 70%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  animation: yarn-roll 1.5s infinite linear;
-}
-
-.yarn-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 10px;
-  background-color: #e74c3c; /* Red yarn color */
-  transition: width 0.1s linear;
-  border-radius: 5px;
+.yarn-path {
+  fill: none;
+  stroke: #e74c3c; /* Red yarn color */
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0; /* Will be set by JS */
+  stroke-dashoffset: 0; /* Will be animated by JS */
 }
 
 .loading-text {
@@ -608,20 +555,14 @@ footer {
   margin-top: 20px;
 }
 
-@keyframes cat-breathe {
-  0% { transform: translateX(-50%) scaleY(1); }
-  50% { transform: translateX(-50%) scaleY(0.98); }
-  100% { transform: translateX(-50%) scaleY(1); }
-}
-
-@keyframes cat-blink {
+@keyframes cat-blink-svg {
   0%, 20%, 40%, 60%, 80%, 100% { transform: scaleY(1); }
   25%, 65% { transform: scaleY(0.1); }
 }
 
-@keyframes yarn-roll {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes yarn-roll-svg {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
 </style>
@@ -862,36 +803,71 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <div class="loader-wrapper">
-  <div class="cat-and-yarn">
-    <div class="cat">
-      <div class="cat-eye left"></div>
-      <div class="cat-eye right"></div>
-    </div>
-    <div class="yarn-ball"></div>
-  </div>
-  <div class="yarn-progress"></div>
+  <svg class="cat-loader-svg" viewBox="0 0 200 200">
+    <!-- Yarn Path (for progress) -->
+    <path class="yarn-path" id="yarnPath" d="M 20 100 C 50 50, 150 50, 180 100 S 150 150, 20 150" />
+
+    <!-- Yarn Ball -->
+    <circle class="yarn-ball-svg" cx="20" cy="100" r="15" />
+
+    <!-- Cat -->
+    <g class="cat-svg">
+      <path class="cat-body" d="M 100 120 C 80 150, 120 150, 100 120 Z" />
+      <circle class="cat-body" cx="100" cy="100" r="30" />
+      <circle class="cat-body" cx="80" cy="75" r="10" />
+      <circle class="cat-body" cx="120" cy="75" r="10" />
+      <circle class="cat-eye" cx="90" cy="90" r="3" />
+      <circle class="cat-eye" cx="110" cy="90" r="3" />
+    </g>
+  </svg>
   <div class="loading-text">読み込み中...</div>
 </div>
 <script>
 window.addEventListener('load', () => {
   const loaderWrapper = document.querySelector('.loader-wrapper');
-  const yarnProgress = document.querySelector('.yarn-progress');
+  const yarnPath = document.getElementById('yarnPath');
+  const yarnBall = document.querySelector('.yarn-ball-svg');
+  const cat = document.querySelector('.cat-svg');
   const loadingText = document.querySelector('.loading-text');
 
+  const pathLength = yarnPath.getTotalLength();
+  yarnPath.style.strokeDasharray = pathLength;
+  yarnPath.style.strokeDashoffset = pathLength;
+
   let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.random() * 10; // Simulate loading progress
-    if (progress > 100) {
-      progress = 100;
-      clearInterval(interval);
+  const duration = 3000; // Animation duration in ms
+  const startTime = Date.now();
+
+  function animateLoader() {
+    const elapsedTime = Date.now() - startTime;
+    progress = Math.min(1, elapsedTime / duration);
+
+    const currentLength = pathLength * (1 - progress);
+    yarnPath.style.strokeDashoffset = currentLength;
+
+    // Move yarn ball along the path
+    const point = yarnPath.getPointAtLength(pathLength * progress);
+    yarnBall.setAttribute('cx', point.x);
+    yarnBall.setAttribute('cy', point.y);
+
+    // Move cat along the path (slightly behind the yarn ball)
+    const catPoint = yarnPath.getPointAtLength(Math.max(0, pathLength * (progress - 0.05))); // Cat slightly behind
+    cat.setAttribute('transform', `translate(${catPoint.x - 100}, ${catPoint.y - 100})`); // Adjust offset for cat position
+
+    loadingText.textContent = `読み込み中... ${Math.floor(progress * 100)}%`;
+
+    if (progress < 1) {
+      requestAnimationFrame(animateLoader);
+    } else {
+      // Animation complete
       loaderWrapper.style.opacity = '0';
       setTimeout(() => {
         loaderWrapper.style.display = 'none';
       }, 500);
     }
-    yarnProgress.style.width = progress + '%';
-    loadingText.textContent = `読み込み中... ${Math.floor(progress)}%`;
-  }, 100);
+  }
+
+  animateLoader();
 });
 </script>
 </body></html>
