@@ -4,30 +4,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-#loading-cat {
-  position: fixed;
-  inset: 0;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeOut 0.5s ease 3s forwards;
-}
-#cat {
-  animation: runInPlace 0.3s steps(4) infinite;
-  transform-origin: center;
-}
- @keyframes runInPlace {
-  0% { transform: translateY(0); }
-  25% { transform: translateY(-2px); }
-  50% { transform: translateY(0); }
-  75% { transform: translateY(2px); }
-  100% { transform: translateY(0); }
-}
- @keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
-}
 ::selection {
   background-color: var(--primary-color);
   color: #fff;
@@ -525,21 +501,109 @@ footer {
   transform: translateY(0);
 }
 
+/* Custom Loading Animation */
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* Very high z-index */
+  transition: opacity 0.5s ease-out;
+}
+
+/* Pixel AI Character Loader */
+.pixel-loader {
+  width: 70px;
+  height: 70px;
+  background-color: var(--primary-color);
+  position: relative;
+  animation: bounce 1s infinite alternate; /* Existing bounce animation */
+  border-radius: 15px; /* More rounded */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Space for speech bubble */
+}
+
+.pixel-loader::before { /* Eyes */
+  content: '';
+  position: absolute;
+  background-color: #fff;
+  width: 10px;
+  height: 10px;
+  top: 20px;
+  left: 15px;
+  border-radius: 50%;
+  box-shadow: 40px 0 #fff; /* Two eyes */
+  animation: blink 2s infinite; /* New blink animation */
+}
+
+.pixel-loader::after { /* Mouth */
+  content: '';
+  position: absolute;
+  background-color: #333;
+  width: 30px;
+  height: 5px;
+  bottom: 15px;
+  left: 20px;
+  border-radius: 2px;
+  animation: mouthMove 1.5s infinite; /* New mouth animation */
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+@keyframes blink {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.1); }
+}
+
+@keyframes mouthMove {
+  0%, 100% { height: 5px; }
+  25% { height: 2px; }
+  75% { height: 8px; }
+}
+
+.speech-bubble {
+  position: relative; /* Relative to loader-wrapper */
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -8px; /* Position above the bubble */
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: -1; /* Ensure it's behind the bubble content */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </style>
 </head><body><main>
-
-<div id="loading-cat">
-  <svg width="80" height="80" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <g id="cat">
-      <circle cx="32" cy="32" r="30" fill="#f2f2f2" />
-      <path d="M20,40 Q25,30 30,40 Q35,50 40,40" stroke="#000" stroke-width="2" fill="none" />
-      <circle cx="24" cy="24" r="4" fill="#000" />
-      <circle cx="40" cy="24" r="4" fill="#000" />
-      <path d="M28,35 Q32,38 36,35" stroke="#000" stroke-width="2" fill="none" />
-    </g>
-  </svg>
-</div>
 
 <div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
@@ -750,10 +814,41 @@ footer {
 <script async src="https://www.tiktok.com/embed.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const fadeInElements = document.querySelectorAll(".fade-in");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.1 });
+
+  fadeInElements.forEach(el => {
+    observer.observe(el);
+  });
+
+  window.onscroll = function() { updateProgressBar() };
+
+  function updateProgressBar() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("progressBar").style.width = scrolled + "%";
+  }
+});
+</script>
+<div class="loader-wrapper">
+  <div class="pixel-loader"></div>
+  <div class="speech-bubble">読み込み中...</div>
+</div>
+<script>
+window.addEventListener('load', () => {
+  const loaderWrapper = document.querySelector('.loader-wrapper');
+  loaderWrapper.style.opacity = '0';
   setTimeout(() => {
-    const loader = document.getElementById('loading-cat');
-    if (loader) loader.style.display = 'none';
-  }, 3500);
+    loaderWrapper.style.display = 'none';
+  }, 500);
 });
 </script>
 </body></html>
