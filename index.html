@@ -331,55 +331,6 @@ section {
 .step-card:hover i {
     transform: scale(1.1);
 }
-
-/* Scene Cards */
-.scene-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: calc(var(--spacing-unit) * 1.5);
-}
-
-.scene-card {
-  background: var(--card-background);
-  border-radius: var(--radius);
-  box-shadow: 0 8px 25px var(--shadow-color);
-  padding: calc(var(--spacing-unit) * 1.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 4px solid var(--primary-color);
-}
-
-.scene-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(74, 144, 226, 0.2);
-}
-
-.scene-card-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.scene-card-title i {
-  font-size: 1.5rem;
-  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.scene-card-ai {
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.scene-card-description {
-  font-size: 0.95rem;
-  color: var(--text-color-light);
-}
-
 .step-text {
   font-size: 1rem;
   color: var(--text-color-light);
@@ -640,29 +591,25 @@ footer {
 <!-- ② シーン別 使い分け例 -->
 <section id="section-scenes" class="fade-in">
 <h2>シーン別&nbsp;おすすめAI</h2>
-<div class="scene-grid">
-  <div class="scene-card">
-    <div class="scene-card-title"><i class="fas fa-feather-alt"></i> 独創的な文章を書きたい</div>
-    <div class="scene-card-ai">AI: ChatGPT, Claude</div>
-    <p class="scene-card-description">小説のプロット作成、詩や歌詞の生成、あるいはキャッチーな広告コピーの考案など、創造性が求められるタスクに最適です。</p>
-  </div>
-  <div class="scene-card">
-    <div class="scene-card-title"><i class="fas fa-briefcase"></i> 仕事の効率を上げたい</div>
-    <div class="scene-card-ai">AI: Gemini, Perplexity</div>
-    <p class="scene-card-description">メールの下書き、議事録の要約、情報収集や翻訳など、日々の定型業務を自動化し、生産性を飛躍的に向上させます。</p>
-  </div>
-  <div class="scene-card">
-    <div class="scene-card-title"><i class="fas fa-graduation-cap"></i> 新しいことを学びたい</div>
-    <div class="scene-card-ai">AI: NotebookLM, ChatGPT</div>
-    <p class="scene-card-description">複雑なテーマの解説、専門用語の平易な説明、あるいは外国語学習の会話パートナーとして、あなたの知的好奇心を満たします。</p>
-  </div>
-    <div class="scene-card">
-    <div class="scene-card-title"><i class="fas fa-palette"></i> クリエイティブな制作</div>
-    <div class="scene-card-ai">AI: ImageFX, SUNO</div>
-    <p class="scene-card-description">Webサイトのロゴデザイン、プレゼン資料の挿絵、SNS投稿用の画像、あるいは動画のBGM作成まで、多彩なニーズに応えます。</p>
-  </div>
-</div>
+<table>
+<thead><tr><th>シーン</th><th>ベストAI</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>独創的ファンタジー小説</td><td>ChatGPT</td><td>創作語彙が豊富で登場人物の一貫性を保ちやすい</td></tr>
+<tr><td>穏やかなエッセイ</td><td>Claude&nbsp;4 Sonnet</td><td>自然で丁寧な語り口。長文でも破綻が少ない</td></tr>
+<tr><td>時事ネタを盛り込む記事</td><td>Gemini 2.5 Pro</td><td>最新ニュース反映の速さ＋多言語要約が強い</td></tr>
+<tr><td>ビジネスメール作成</td><td>Gemini / Claude</td><td>要件の指示だけで、丁寧なビジネスメールのドラフトを即時作成。トーンの調整も得意</td></tr>
+<tr><td>議事録の要約・タスク洗い出し</td><td>Claude / Gemini</td><td>長文の議事録テキストを貼り付けるだけで、決定事項・ToDoリスト・確認事項を構造化して抽出できる。</td></tr>
+<tr><td>競合・市場調査</td><td>Perplexity / ChatGPT (Web検索)</td><td>最新のWeb情報を基に、競合製品の比較表や市場トレンドのレポートを、出典付きで生成してくれる。</td></tr>
+<tr><td>ロゴ入り・社外提案資料</td><td>GenSpark</td><td>Brand Kit自動反映＋ストーリー立案◎</td></tr>
+<tr><td>社内共有のシンプル報告書</td><td>Manus</td><td>既存PPT→配色統一リライトが得意</td></tr>
+<tr><td>短尺動画のBGM</td><td>SUNO</td><td>ジャンル指定→商用OK楽曲を即生成</td></tr>
+<tr><td>ブログ用サムネ</td><td>ChatGPT 4o ImageGen</td><td>指示＋スタイル指定で高品質画像 (3枚/日)</td></tr>
+<tr><td>YouTube 動画要点メモ</td><td>NotebookLM</td><td>URL貼付→構造化メモ化／質問にも回答</td></tr>
+<tr><td>新商品の名前</td><td>ChatGPT</td><td>多様なアイデアと多角的な視点を提供</td></tr>
+<tr><td>SNS 投稿ネタ</td><td>Gemini</td><td>トレンド分析とターゲット層に響く表現力</td></tr>
+<tr><td>人生相談</td><td>ChatGPT 4.5</td><td>幅広い知識と共感的な対話で、多角的な視点から問題解決をサポート</td></tr>
 
+</tbody></table>
 </section>
 
 
