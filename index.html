@@ -4,6 +4,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
+#loading-cat {
+  position: fixed;
+  inset: 0;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 0.5s ease 3s forwards;
+}
+#cat {
+  animation: runInPlace 0.3s steps(4) infinite;
+  transform-origin: center;
+}
+ @keyframes runInPlace {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-2px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+ @keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
 ::selection {
   background-color: var(--primary-color);
   color: #fff;
@@ -712,6 +736,18 @@ footer {
 </style>
 </head><body><main>
 
+<div id="loading-cat">
+  <svg width="80" height="80" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <g id="cat">
+      <circle cx="32" cy="32" r="30" fill="#f2f2f2" />
+      <path d="M20,40 Q25,30 30,40 Q35,50 40,40" stroke="#000" stroke-width="2" fill="none" />
+      <circle cx="24" cy="24" r="4" fill="#000" />
+      <circle cx="40" cy="24" r="4" fill="#000" />
+      <path d="M28,35 Q32,38 36,35" stroke="#000" stroke-width="2" fill="none" />
+    </g>
+  </svg>
+</div>
+
 <div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
 <div class="progress-container">
@@ -970,6 +1006,14 @@ window.addEventListener('load', () => {
   setTimeout(() => {
     loaderWrapper.style.display = 'none';
   }, 500);
+});
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loading-cat');
+    if (loader) loader.style.display = 'none';
+  }, 3500);
 });
 </script>
 </body></html>
