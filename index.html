@@ -510,96 +510,100 @@ footer {
   height: 100%;
   background-color: var(--background-color);
   display: flex;
-  flex-direction: column; /* Stack items vertically */
   justify-content: center;
   align-items: center;
-  z-index: 99999; /* Very high z-index */
+  z-index: 99999;
   transition: opacity 0.5s ease-out;
 }
 
-/* Pixel AI Character Loader */
-.pixel-loader {
-  width: 70px;
-  height: 70px;
-  background-color: var(--primary-color);
+.cat-loader {
+  width: 80px;
+  height: 80px;
   position: relative;
-  animation: bounce 1s infinite alternate; /* Existing bounce animation */
-  border-radius: 15px; /* More rounded */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px; /* Space for speech bubble */
 }
 
-.pixel-loader::before { /* Eyes */
-  content: '';
+.cat-loader .cat-body {
+  width: 50px;
+  height: 30px;
+  background-color: var(--primary-color);
+  border-radius: 50% 50% 40% 40%;
   position: absolute;
-  background-color: #fff;
-  width: 10px;
-  height: 10px;
-  top: 20px;
-  left: 15px;
-  border-radius: 50%;
-  box-shadow: 40px 0 #fff; /* Two eyes */
-  animation: blink 2s infinite; /* New blink animation */
+  top: 30px;
+  left: 10px;
+  animation: cat-body-animation 1s infinite;
 }
 
-.pixel-loader::after { /* Mouth */
-  content: '';
-  position: absolute;
-  background-color: #333;
+.cat-loader .cat-head {
   width: 30px;
-  height: 5px;
-  bottom: 15px;
-  left: 20px;
-  border-radius: 2px;
-  animation: mouthMove 1.5s infinite; /* New mouth animation */
-}
-
-@keyframes bounce {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-10px); }
-}
-
-@keyframes blink {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(0.1); }
-}
-
-@keyframes mouthMove {
-  0%, 100% { height: 5px; }
-  25% { height: 2px; }
-  75% { height: 8px; }
-}
-
-.speech-bubble {
-  position: relative; /* Relative to loader-wrapper */
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  white-space: nowrap;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  animation: fadeIn 0.5s ease-out;
-}
-
-.speech-bubble::after {
-  content: '';
+  height: 30px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
   position: absolute;
-  top: -8px; /* Position above the bubble */
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 16px;
-  height: 16px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: -1; /* Ensure it's behind the bubble content */
+  top: 15px;
+  left: 40px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.cat-loader .cat-ears {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  width: 30px;
+  height: 15px;
+}
+
+.cat-loader .cat-ear {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid var(--primary-color);
+  position: absolute;
+  top: 0;
+}
+
+.cat-loader .cat-ear--left { left: 0; }
+.cat-loader .cat-ear--right { right: 0; }
+
+.cat-loader .cat-tail {
+  width: 10px;
+  height: 40px;
+  background-color: var(--primary-color);
+  position: absolute;
+  top: 20px;
+  left: 0;
+  border-radius: 10px 0 0 10px;
+  transform-origin: bottom right;
+  animation: cat-tail-animation 1s infinite;
+}
+
+.cat-loader .cat-leg {
+  width: 8px;
+  height: 15px;
+  background-color: var(--primary-color);
+  position: absolute;
+  bottom: 15px;
+  animation: cat-leg-animation 0.5s infinite;
+}
+
+.cat-loader .leg--front-left { left: 45px; animation-delay: 0s; }
+.cat-loader .leg--front-right { left: 25px; animation-delay: 0.25s; }
+.cat-loader .leg--back-left { left: 40px; animation-delay: 0.1s; }
+.cat-loader .leg--back-right { left: 20px; animation-delay: 0.35s; }
+
+@keyframes cat-body-animation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes cat-tail-animation {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+
+@keyframes cat-leg-animation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 </style>
 </style>
@@ -839,8 +843,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <div class="loader-wrapper">
-  <div class="pixel-loader"></div>
-  <div class="speech-bubble">読み込み中...</div>
+  <div class="cat-loader">
+    <div class="cat-body"></div>
+    <div class="cat-head"></div>
+    <div class="cat-ears">
+      <div class="cat-ear cat-ear--left"></div>
+      <div class="cat-ear cat-ear--right"></div>
+    </div>
+    <div class="cat-tail"></div>
+    <div class="cat-leg leg--front-left"></div>
+    <div class="cat-leg leg--front-right"></div>
+    <div class="cat-leg leg--back-left"></div>
+    <div class="cat-leg leg--back-right"></div>
+  </div>
 </div>
 <script>
 window.addEventListener('load', () => {
