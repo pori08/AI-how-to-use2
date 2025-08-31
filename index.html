@@ -76,7 +76,9 @@ body {
   font-family: var(--font-family);
   background: radial-gradient(1200px 600px at 10% 0%, rgba(108,124,246,.15), transparent 60%),
               radial-gradient(900px 500px at 90% 10%, rgba(34,211,238,.14), transparent 60%),
-              linear-gradient(to bottom, var(--background-color), #ffffff);
+              linear-gradient(to bottom, var(--background-color), #ffffff),
+              repeating-linear-gradient(0deg, rgba(2,6,23,0.03), rgba(2,6,23,0.03) 1px, transparent 1px, transparent 20px),
+              repeating-linear-gradient(90deg, rgba(2,6,23,0.03), rgba(2,6,23,0.03) 1px, transparent 1px, transparent 20px);
   color: var(--text-color);
   line-height: 1.7;
   position: relative;
@@ -392,6 +394,33 @@ section {
 }
 
 /* Scene Cards */
+.scene-slider-wrap{ position: relative; }
+.scene-slider{
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 0.75rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.scene-slide{
+  scroll-snap-align: center;
+  flex: 0 0 86%;
+  position: relative;
+  background: var(--card-background);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+@media (min-width: 768px){
+  .scene-slide{ flex-basis: 46%; }
+}
+.scene-slide:hover{ transform: translateY(-2px); }
+.slider-progress{ height: 4px; background: rgba(2,6,23,0.08); border-radius: 999px; margin-top: 0.5rem; overflow: hidden; }
+.slider-progress span{ display:block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); border-radius: inherit; }
 .scene-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -721,90 +750,93 @@ footer {
 </tbody></table>
 </section>
 
-<!-- ② シーン別 使い分け例 -->
+<!-- ② シーン別 使い分け例 → 横スクロールスライダー -->
 <section id="section-scenes" class="fade-in">
 <h2>シーン別&nbsp;おすすめAI</h2>
-<div class="scene-grid">
-  <div class="scene-card">
+<div class="scene-slider-wrap">
+<div class="scene-slider">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-feather-alt"></i> 独創的ファンタジー小説</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">創作語彙が豊富で登場人物の一貫性を保ちやすい</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-pen-nib"></i> 穏やかなエッセイ</div>
     <div class="scene-card-ai">AI: Claude 4 Sonnet</div>
     <p class="scene-card-description">自然で丁寧な語り口。長文でも破綻が少ない</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="far fa-newspaper"></i> 時事ネタを盛り込む記事</div>
     <div class="scene-card-ai">AI: Gemini 2.5 Pro</div>
     <p class="scene-card-description">最新ニュース反映の速さ＋多言語要約が強い</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="far fa-envelope"></i> ビジネスメール作成</div>
     <div class="scene-card-ai">AI: Gemini / Claude</div>
     <p class="scene-card-description">要件の指示だけで、丁寧なビジネスメールのドラフトを即時作成。トーンの調整も得意</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-tasks"></i> 議事録の要約・タスク洗い出し</div>
     <div class="scene-card-ai">AI: Claude / Gemini</div>
     <p class="scene-card-description">長文の議事録テキストを貼り付けるだけで、決定事項・ToDoリスト・確認事項を構造化して抽出できる。</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-chart-line"></i> 競合・市場調査</div>
     <div class="scene-card-ai">AI: Perplexity / ChatGPT (Web検索)</div>
     <p class="scene-card-description">最新のWeb情報を基に、競合製品の比較表や市場トレンドのレポートを、出典付きで生成してくれる。</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-file-powerpoint"></i> ロゴ入り・社外提案資料</div>
     <div class="scene-card-ai">AI: GenSpark</div>
     <p class="scene-card-description">Brand Kit自動反映＋ストーリー立案◎</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-phone-alt"></i> AI電話代行</div>
     <div class="scene-card-ai">AI: GenSpark</div>
     <p class="scene-card-description">24時間365日、AIが一次対応を代行。予約受付や問い合わせ対応を自動化し、人手不足を解消します。</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-file-alt"></i> 社内共有のシンプル報告書</div>
     <div class="scene-card-ai">AI: Manus</div>
     <p class="scene-card-description">既存PPT→配色統一リライトが得意</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-robot"></i> 定型業務の完全自動化</div>
     <div class="scene-card-ai">AI: Manus</div>
     <p class="scene-card-description">「毎日19時に寿司を注文して決済まで済ませておく」といった、日常の定型タスクを完全に自動化できます。</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-music"></i> 短尺動画のBGM</div>
     <div class="scene-card-ai">AI: SUNO</div>
     <p class="scene-card-description">ジャンル指定→商用OK楽曲を即生成</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-image"></i> ブログ用サムネ</div>
     <div class="scene-card-ai">AI: Nano-Banana</div>
     <p class="scene-card-description">指示＋スタイル指定で高品質画像</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-book-reader"></i> マニュアル・講義のチャットbot化</div>
     <div class="scene-card-ai">AI: NotebookLM</div>
     <p class="scene-card-description">マニュアルや講義資料をアップロードするだけで、内容に関する質問に答える専用チャットbotとして活用できます。</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-lightbulb"></i> 新商品の名前</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">多様なアイデアと多角的な視点を提供</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-hashtag"></i> SNS 投稿ネタ</div>
     <div class="scene-card-ai">AI: Gemini</div>
     <p class="scene-card-description">トレンド分析とターゲット層に響く表現力</p>
   </div>
-  <div class="scene-card">
+  <div class="scene-slide">
     <div class="scene-card-title"><i class="fas fa-user-friends"></i> 人生相談</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">幅広い知識と共感的な対話で、多角的な視点から問題解決をサポート</p>
   </div>
+</div>
+<div class="slider-progress"><span></span></div>
 </div>
 </section>
 
@@ -927,6 +959,20 @@ document.addEventListener("DOMContentLoaded", () => {
     var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var scrolled = (winScroll / height) * 100;
     document.getElementById("progressBar").style.width = scrolled + "%";
+  }
+
+  // Scene slider progress
+  const slider = document.querySelector('.scene-slider');
+  const sliderBar = document.querySelector('.slider-progress span');
+  if (slider && sliderBar) {
+    const updateSliderProgress = () => {
+      const max = slider.scrollWidth - slider.clientWidth;
+      const ratio = max > 0 ? (slider.scrollLeft / max) : 0;
+      sliderBar.style.width = Math.min(100, Math.max(0, ratio * 100)) + '%';
+    };
+    slider.addEventListener('scroll', updateSliderProgress, { passive: true });
+    window.addEventListener('resize', updateSliderProgress);
+    updateSliderProgress();
   }
 });
 </script>
