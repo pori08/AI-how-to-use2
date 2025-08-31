@@ -341,44 +341,102 @@ section {
 }
 
 .scene-card {
+  position: relative;
   background: var(--card-background);
   border-radius: var(--radius);
   box-shadow: 0 8px 25px var(--shadow-color);
   padding: calc(var(--spacing-unit) * 1.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 4px solid var(--primary-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+.scene-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
 }
 
 .scene-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(74, 144, 226, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(74, 144, 226, 0.18);
+}
+.scene-card:active {
+  transform: translateY(-1px) scale(0.995);
 }
 
 .scene-card-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
 .scene-card-title i {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .scene-card-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--primary-color-dark);
   margin-bottom: 0.5rem;
+  background: rgba(var(--primary-color-rgb), 0.08);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.18);
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+}
+.scene-card-ai::before {
+  content: 'AI';
+  display: inline-block;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #fff;
+  background: var(--primary-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
 }
 
 .scene-card-description {
   font-size: 0.95rem;
   color: var(--text-color-light);
+}
+
+/* Mobile-first refinements for Scene Cards */
+@media (max-width: 480px) {
+  .scene-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .scene-card {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+  .scene-card-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+  .scene-card-title i {
+    font-size: 1.2rem;
+  }
+  .scene-card-ai {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+  .scene-card-description {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
 }
 
 .step-text {
@@ -635,7 +693,7 @@ footer {
   </div>
   <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-user-friends"></i> 人生相談</div>
-    <div class="scene-card-ai">AI: ChatGPT 4.5</div>
+    <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">幅広い知識と共感的な対話で、多角的な視点から問題解決をサポート</p>
   </div>
 </div>
