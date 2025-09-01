@@ -639,12 +639,10 @@ iframe, .tiktok-embed {
   box-shadow: 0 8px 20px var(--shadow-color);
   margin: var(--spacing-unit) auto;
 }
-.tiktok-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-unit);
-    justify-content: center;
-}
+/* TikTok horizontal slider */
+.tiktok-slider{ display:flex; gap: 1rem; overflow-x:auto; padding: .5rem .25rem .75rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.tt-slide{ scroll-snap-align: center; flex: 0 0 86%; max-width: 420px; }
+@media (min-width: 768px){ .tt-slide{ flex-basis: 46%; } }
 
 /* Audio list tiles */
 .audio-list{
@@ -707,6 +705,56 @@ footer {
   /* 任意:ダーク→ライト切替時に背景色をカスタマイズ可 */
 </style>
 </style>
+<style>
+  /* Nav override: remove pill-shaped container and chips */
+  .page-nav{
+    display:none; /* 固定TOCへ置き換え */
+  }
+  .page-nav a{
+    text-decoration:none;
+  }
+  /* 固定TOC */
+  .toc{
+    position: sticky; top:0; z-index: 30; display:flex; gap:1rem; justify-content:center; align-items:center;
+    padding:.6rem 1rem; background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
+    border-bottom:1px solid rgba(15,23,42,.08);
+  }
+  .toc a{ color:#0b1220; text-decoration:none; font-weight:800; padding:.25rem .5rem; border-radius:8px; transition: color .15s ease, background .15s ease; }
+  .toc a:hover{ background: rgba(108,124,246,.12); }
+  .toc a.active{ color:#1e40af; background: rgba(108,124,246,.18); }
+
+  /* セクション毎の淡色アクセント */
+  #section-tasks{ --section-accent: 108,124,246; }
+  #section-scenes{ --section-accent: 34,211,238; }
+  #section-examples{ --section-accent: 251,113,133; }
+  #section-steps{ --section-accent: 245,158,11; }
+  #section-changelog{ --section-accent: 99,102,241; }
+  section{ background: linear-gradient(180deg, rgba(var(--section-accent,108,124,246),.06), rgba(255,255,255,0) 50%); border-radius: 12px; padding-top: .2rem; }
+
+  /* 見出し装飾: アクセント帯 */
+  h2{ position:relative; }
+  h2::after{
+    content:""; position:absolute; left:0; bottom:-2px; height:4px; width:100%;
+    background: linear-gradient(90deg, rgba(var(--section-accent,108,124,246),.5), rgba(255,255,255,0));
+    border-radius:999px;
+  }
+
+  /* 戻るボタン */
+  #backToTop{
+    position: fixed; right: 16px; bottom: 16px; z-index: 40; display:none;
+    padding:.7rem .9rem; border-radius: 999px; border:1px solid rgba(15,23,42,.12);
+    background:#ffffff; color:#111827; font-weight:800; box-shadow: 0 10px 24px rgba(2,6,23,.15);
+    cursor:pointer; transition: transform .15s ease, box-shadow .15s ease, opacity .2s ease;
+  }
+  #backToTop.show{ display:block; }
+  #backToTop:hover{ transform: translateY(-2px); box-shadow: 0 16px 32px rgba(2,6,23,.2); }
+
+  /* 更新日表示 */
+  .meta-updated{ margin-top:.6rem; font-weight:700; letter-spacing:.02em; }
+  .meta-updated time{ background: rgba(255,255,255,.9); color:#0b1220; padding:.2rem .5rem; border-radius:8px; border:1px solid rgba(255,255,255,.7); }
+  .changelog-date{ margin:.4rem 0 .6rem; font-weight:700; color:#334155; }
+  .changelog-date time{ background: rgba(108,124,246,.12); border:1px solid rgba(108,124,246,.28); padding:.12rem .4rem; border-radius:6px; }
+</style>
 <script src="https://unpkg.com/lottie-web@latest/build/player/lottie.min.js" defer></script>
 </head><body>
 <div id="loadCat" aria-label="Loading">
@@ -715,6 +763,7 @@ footer {
 
 <div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
+<div class="meta-updated">更新: <time id="lastUpdated"></time></div>
 <div class="progress-container">
   <div class="progress-bar" id="progressBar"></div>
 </div>
@@ -724,6 +773,15 @@ footer {
   <a href="#section-examples">活用事例</a>
 </nav>
 </div>
+
+<!-- 固定TOC（ページ上部） -->
+<nav class="toc" aria-label="目次">
+  <a href="#section-tasks">目的別</a>
+  <a href="#section-scenes">シーン別</a>
+  <a href="#section-examples">活用事例</a>
+  <a href="#section-steps">3ステップ</a>
+  <a href="#section-changelog">更新履歴</a>
+</nav>
 
 <!-- ① タスク × AI 対応表 -->
 <section id="section-tasks" class="fade-in">
@@ -750,96 +808,92 @@ footer {
 </tbody></table>
 </section>
 
-<!-- ② シーン別 使い分け例 → 横スクロールスライダー -->
+<!-- ② シーン別（横スクロール導入前のフル表示版） -->
 <section id="section-scenes" class="fade-in">
 <h2>シーン別&nbsp;おすすめAI</h2>
-<div class="scene-slider-wrap">
-<div class="scene-slider">
-  <div class="scene-slide">
+<div class="scene-grid">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-feather-alt"></i> 独創的ファンタジー小説</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">創作語彙が豊富で登場人物の一貫性を保ちやすい</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-pen-nib"></i> 穏やかなエッセイ</div>
     <div class="scene-card-ai">AI: Claude 4 Sonnet</div>
     <p class="scene-card-description">自然で丁寧な語り口。長文でも破綻が少ない</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="far fa-newspaper"></i> 時事ネタを盛り込む記事</div>
     <div class="scene-card-ai">AI: Gemini 2.5 Pro</div>
     <p class="scene-card-description">最新ニュース反映の速さ＋多言語要約が強い</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="far fa-envelope"></i> ビジネスメール作成</div>
     <div class="scene-card-ai">AI: Gemini / Claude</div>
     <p class="scene-card-description">要件の指示だけで、丁寧なビジネスメールのドラフトを即時作成。トーンの調整も得意</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-tasks"></i> 議事録の要約・タスク洗い出し</div>
     <div class="scene-card-ai">AI: Claude / Gemini</div>
     <p class="scene-card-description">長文の議事録テキストを貼り付けるだけで、決定事項・ToDoリスト・確認事項を構造化して抽出できる。</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-chart-line"></i> 競合・市場調査</div>
     <div class="scene-card-ai">AI: Perplexity / ChatGPT (Web検索)</div>
     <p class="scene-card-description">最新のWeb情報を基に、競合製品の比較表や市場トレンドのレポートを、出典付きで生成してくれる。</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-file-powerpoint"></i> ロゴ入り・社外提案資料</div>
     <div class="scene-card-ai">AI: GenSpark</div>
     <p class="scene-card-description">Brand Kit自動反映＋ストーリー立案◎</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-phone-alt"></i> AI電話代行</div>
     <div class="scene-card-ai">AI: GenSpark</div>
     <p class="scene-card-description">24時間365日、AIが一次対応を代行。予約受付や問い合わせ対応を自動化し、人手不足を解消します。</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-file-alt"></i> 社内共有のシンプル報告書</div>
     <div class="scene-card-ai">AI: Manus</div>
     <p class="scene-card-description">既存PPT→配色統一リライトが得意</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-robot"></i> 定型業務の完全自動化</div>
     <div class="scene-card-ai">AI: Manus</div>
     <p class="scene-card-description">「毎日19時に寿司を注文して決済まで済ませておく」といった、日常の定型タスクを完全に自動化できます。</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-music"></i> 短尺動画のBGM</div>
     <div class="scene-card-ai">AI: SUNO</div>
     <p class="scene-card-description">ジャンル指定→商用OK楽曲を即生成</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-image"></i> ブログ用サムネ</div>
     <div class="scene-card-ai">AI: Nano-Banana</div>
     <p class="scene-card-description">指示＋スタイル指定で高品質画像</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-book-reader"></i> マニュアル・講義のチャットbot化</div>
     <div class="scene-card-ai">AI: NotebookLM</div>
     <p class="scene-card-description">マニュアルや講義資料をアップロードするだけで、内容に関する質問に答える専用チャットbotとして活用できます。</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-lightbulb"></i> 新商品の名前</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">多様なアイデアと多角的な視点を提供</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-hashtag"></i> SNS 投稿ネタ</div>
     <div class="scene-card-ai">AI: Gemini</div>
     <p class="scene-card-description">トレンド分析とターゲット層に響く表現力</p>
   </div>
-  <div class="scene-slide">
+  <div class="scene-card">
     <div class="scene-card-title"><i class="fas fa-user-friends"></i> 人生相談</div>
     <div class="scene-card-ai">AI: ChatGPT</div>
     <p class="scene-card-description">幅広い知識と共感的な対話で、多角的な視点から問題解決をサポート</p>
   </div>
 </div>
-<div class="slider-progress"><span></span></div>
-</div>
 </section>
-
 
 
 
@@ -860,120 +914,168 @@ footer {
       <p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風▶再生</a></p>
     </div>
   </div>
-</div>
-
-<div class="content-block">
-  <div class="content-block-title"><i class="fas fa-file-powerpoint"></i> GenSpark で作成したプレゼン資料</div>
-  <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" target="_blank" class="button">GenSpark 資料を見る</a></p>
-</div>
-
-<div class="content-block">
-  <div class="content-block-title"><i class="fas fa-file-alt"></i> Manus で作成したプレゼン資料</div>
-  <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" target="_blank" class="button">Manus 資料を見る</a></p>
-</div>
-
-<div class="content-block">
-  <div class="content-block-title"><i class="fas fa-book"></i> NotebookLM (睡眠データ)</div>
-  <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">
-    このNotebookLMは、睡眠に関する様々なデータを集約し、分析するためのものです。
-    例えば、睡眠パターン、睡眠の質に影響を与える要因、改善策などを、
-    チャットで質問したり、音声を生成して耳で聞くことができます。
-    個人の睡眠習慣の改善や、研究データの分析に役立ちます。
-  </p>
-  <p><a href="https://notebooklm.google.com/notebook/74fa9264-bc9d-46e7-a7d2-15254edf81a0" target="_blank" class="button">NotebookLMで睡眠データを見る</a></p>
-</div>
-
-<div class="content-block">
-  <div class="content-block-title"><i class="fas fa-video"></i> Veo&nbsp;3 で生成した短尺動画</div>
-  <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">※Veo3は映像の完成度が非常に高いことで知られていますが、実は音声の質も素晴らしい仕上がりです。音量をオンにして、ぜひ体感してみてください。</p>
-  <div class="tiktok-wrap" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
-    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:100%;">
-      <section>
-        <a target="_blank" href="https://www.tiktok.com/@stanislav_laurier?refer=embed">@stanislav_laurier</a>
-      </section>
-    </blockquote>
-    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@asmraiworks/video/7516993127152930078?is_copy_url=1&is_from_webapp=v1" data-video-id="7516993127152930078" style="max-width:100%;">
-      <section>
-        <a target="_blank" href="https://www.tiktok.com/@asmraiworks?refer=embed">@asmraiworks</a>
-      </section>
-    </blockquote>
-    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aiinterview7/video/7522011573141982482?is_copy_url=1&is_from_webapp=v1" data-video-id="7522011573141982482" style="max-width:100%;">
-      <section>
-        <a target="_blank" href="https://www.tiktok.com/@aiinterview7?refer=embed">@aiinterview7</a>
-      </section>
-    </blockquote>
   </div>
-</div>
 
-
-</section>
-
-<!-- ⑤ ３ステップ -->
-<section class="fade-in">
-<h2><i class="fas fa-rocket"></i> 生成AIを始める3ステップ</h2>
-<div class="step-container">
-  <div class="step-card">
-    <i class="fas fa-download"></i>
-    <div class="step-text">アプリをインストール<br>(またはブラウザで開く)</div>
+  <div class="content-block">
+    <div class="content-block-title"><i class="fas fa-file-powerpoint"></i> GenSpark で作成したプレゼン資料</div>
+    <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/why_invest_in_stocks_edited.pdf&embedded=true" target="_blank" class="button">GenSpark 資料を見る</a></p>
   </div>
-  <div class="step-card">
-    <i class="fas fa-user-plus"></i>
-    <div class="step-text">メールアドレス / Google<br>アカウントで無料登録</div>
-  </div>
-  <div class="step-card">
-    <i class="fas fa-magic"></i>
-    <div class="step-text">テキスト・画像などを入力し<br>生成結果を共有</div>
-  </div>
-</div>
-<div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);">
-  <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-light);">さあ、あなたも生成AIを体験してみましょう！</p>
-  <a href="#section-tasks" class="button">AIツールリストを見る</a>
-</div>
-</section>
 
-</main>
-<footer>
-  <p>&copy; 2025 無料で試せる生成AI 早見ガイド</p>
-</footer>
-<script async src="https://www.tiktok.com/embed.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const fadeInElements = document.querySelectorAll(".fade-in");
+  <div class="content-block">
+    <div class="content-block-title"><i class="fas fa-file-alt"></i> Manus で作成したプレゼン資料</div>
+    <p><a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/pori08/AI-how-to-use2/main/pdf/invest.pdf&embedded=true" target="_blank" class="button">Manus 資料を見る</a></p>
+  </div>
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
+  <div class="content-block">
+    <div class="content-block-title"><i class="fas fa-book"></i> NotebookLM (睡眠データ)</div>
+    <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">
+      このNotebookLMは、睡眠に関する様々なデータを集約し、分析するためのものです。
+      例えば、睡眠パターン、睡眠の質に影響を与える要因、改善策などを、
+      チャットで質問したり、音声を生成して耳で聞くことができます。
+      個人の睡眠習慣の改善や、研究データの分析に役立ちます。
+    </p>
+    <p><a href="https://notebooklm.google.com/notebook/74fa9264-bc9d-46e7-a7d2-15254edf81a0" target="_blank" class="button">NotebookLMで睡眠データを見る</a></p>
+  </div>
+
+  <div class="content-block">
+    <div class="content-block-title"><i class="fas fa-video"></i> Veo&nbsp;3 で生成した短尺動画</div>
+    <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">※Veo3は映像の完成度が非常に高いことで知られていますが、実は音声の質も素晴らしい仕上がりです。音量をオンにして、ぜひ体感してみてください。</p>
+    <div class="tiktok-slider">
+      <div class="tt-slide">
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:420px;">
+          <section>
+            <a target="_blank" href="https://www.tiktok.com/@stanislav_laurier?refer=embed">@stanislav_laurier</a>
+          </section>
+        </blockquote>
+      </div>
+      <div class="tt-slide">
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@asmraiworks/video/7516993127152930078?is_copy_url=1&is_from_webapp=v1" data-video-id="7516993127152930078" style="max-width:420px;">
+          <section>
+            <a target="_blank" href="https://www.tiktok.com/@asmraiworks?refer=embed">@asmraiworks</a>
+          </section>
+        </blockquote>
+      </div>
+      <div class="tt-slide">
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aiinterview7/video/7522011573141982482?is_copy_url=1&is_from_webapp=v1" data-video-id="7522011573141982482" style="max-width:420px;">
+          <section>
+            <a target="_blank" href="https://www.tiktok.com/@aiinterview7?refer=embed">@aiinterview7</a>
+          </section>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  
+  
+  </section>
+  
+  <!-- ⑤ ３ステップ -->
+  <section id="section-steps" class="fade-in">
+  <h2><i class="fas fa-rocket"></i> 生成AIを始める3ステップ</h2>
+  <div class="step-container">
+    <div class="step-card">
+      <i class="fas fa-download"></i>
+      <div class="step-text">アプリをインストール<br>(またはブラウザで開く)</div>
+    </div>
+    <div class="step-card">
+      <i class="fas fa-user-plus"></i>
+      <div class="step-text">メールアドレス / Google<br>アカウントで無料登録</div>
+    </div>
+    <div class="step-card">
+      <i class="fas fa-magic"></i>
+      <div class="step-text">テキスト・画像などを入力し<br>生成結果を共有</div>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);">
+    <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-light);">さあ、あなたも生成AIを体験してみましょう！</p>
+    <a href="#section-tasks" class="button">AIツールリストを見る</a>
+  </div>
+  </section>
+
+  <!-- 更新履歴 -->
+  <section id="section-changelog" class="fade-in">
+    <h2><i class="fas fa-history"></i> 更新履歴</h2>
+    <div class="content-block">
+      <div class="content-block-title"><i class="fas fa-clipboard-list"></i> 最近の変更（AIツール更新）</div>
+      <div class="changelog-date">更新日: <time id="chgGroupDate"></time></div>
+      <ul style="margin-left:1rem;">
+        <li><strong>画像生成</strong>: imageFX・ChatGPTを除外し、<em>Nano-Banana</em>を追加（Stable Diffusionは継続）</li>
+        <li><strong>画像編集</strong>: <em>Nano-Banana</em>を追加</li>
+        <li><strong>シーン別カード</strong>: 画像生成のおすすめに<em>Nano-Banana</em>を反映</li>
+      </ul>
+    </div>
+  </section>
+  
+  </main>
+  <footer>
+    <p>&copy; 2025 無料で試せる生成AI 早見ガイド</p>
+  </footer>
+  <script async src="https://www.tiktok.com/embed.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const fadeInElements = document.querySelectorAll(".fade-in");
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.1 });
+  
+    fadeInElements.forEach(el => {
+      observer.observe(el);
     });
-  }, { threshold: 0.1 });
+  
+    window.onscroll = function() { updateProgressBar() };
+  
+    function updateProgressBar() {
+      var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrolled = (winScroll / height) * 100;
+      document.getElementById("progressBar").style.width = scrolled + "%";
+    }
+  
+    // TOC現在地ハイライト
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const sectionMap = tocLinks.map(a => ({ id: a.getAttribute('href').slice(1), link: a }));
+    const observer2 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const id = entry.target.id;
+          sectionMap.forEach(s => s.link.classList.toggle('active', s.id === id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sectionMap.forEach(s => {
+      const el = document.getElementById(s.id);
+      if(el) observer2.observe(el);
+    });
 
-  fadeInElements.forEach(el => {
-    observer.observe(el);
-  });
-
-  window.onscroll = function() { updateProgressBar() };
-
-  function updateProgressBar() {
-    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var scrolled = (winScroll / height) * 100;
-    document.getElementById("progressBar").style.width = scrolled + "%";
-  }
-
-  // Scene slider progress
-  const slider = document.querySelector('.scene-slider');
-  const sliderBar = document.querySelector('.slider-progress span');
-  if (slider && sliderBar) {
-    const updateSliderProgress = () => {
-      const max = slider.scrollWidth - slider.clientWidth;
-      const ratio = max > 0 ? (slider.scrollLeft / max) : 0;
-      sliderBar.style.width = Math.min(100, Math.max(0, ratio * 100)) + '%';
+    // 戻るボタン
+    const backBtn = document.getElementById('backToTop');
+    const toggleBackBtn = () => {
+      backBtn.classList.toggle('show', (document.documentElement.scrollTop || document.body.scrollTop) > 300);
     };
-    slider.addEventListener('scroll', updateSliderProgress, { passive: true });
-    window.addEventListener('resize', updateSliderProgress);
-    updateSliderProgress();
-  }
-});
-</script>
-</body></html>
+    window.addEventListener('scroll', toggleBackBtn, { passive:true });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // 更新日を表示（ローカル日付）
+    const lastUpdatedEl = document.getElementById('lastUpdated');
+    if (lastUpdatedEl) {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const iso = `${yyyy}-${mm}-${dd}`;
+      lastUpdatedEl.textContent = iso;
+      lastUpdatedEl.setAttribute('datetime', iso);
+      // 最近の変更（AIツール更新）: グループ日付を同日に設定
+      const chg = document.getElementById('chgGroupDate');
+      if (chg) { chg.textContent = iso; chg.setAttribute('datetime', iso); }
+    }
+
+    // 横スクロールUIは撤去済み
+  });
+  </script>
+  <button id="backToTop" aria-label="トップへ">▲</button>
+  </body></html>
