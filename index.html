@@ -660,6 +660,10 @@ iframe, .tiktok-embed {
   box-shadow: 0 6px 16px var(--shadow-color);
   border: 1px solid rgba(0,0,0,0.04);
 }
+.audio-item audio{
+  width: 100%;
+  margin-top: 0.5rem;
+}
 .audio-style{
   display: inline-block;
   font-size: 0.8rem;
@@ -907,11 +911,17 @@ footer {
   <div class="audio-list">
     <div class="audio-item">
       <div class="audio-style">JPOP風</div>
-      <p><a href="https://suno.com/s/MmfEKVcQBVCJ4RX6" target="_blank" class="button">J-POP風▶再生</a></p>
+      <audio controls preload="none">
+        <source src="assets/audio/空蝉の夏.mp3" type="audio/mpeg">
+        お使いのブラウザでは音声を再生できません。
+      </audio>
     </div>
     <div class="audio-item">
       <div class="audio-style">ボカロ風</div>
-      <p><a href="https://suno.com/s/zm3TEFJsqPPCUElB" target="_blank" class="button">ボカロ風▶再生</a></p>
+      <audio controls preload="none">
+        <source src="assets/audio/光のパルス.mp3" type="audio/mpeg">
+        お使いのブラウザでは音声を再生できません。
+      </audio>
     </div>
   </div>
   </div>
@@ -991,57 +1001,7 @@ footer {
   </div>
   </section>
 
-  <!-- 有料プランのおすすめ（テキスト版） -->
-  <section id="section-paid" class="fade-in">
-    <h2><i class="fas fa-crown"></i> 有料プランのおすすめ</h2>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-comments"></i> ChatGPT（推しの理由）</div>
-      <ul style="margin-left:1rem;">
-        <li><strong>思考支援</strong>: （例）Five Thinking など高度な推論モードで発想/検討が速い</li>
-        <li><strong>コード</strong>: コーデックス（サブスク）と組み合わせたコーディング支援が強力</li>
-        <li><strong>生成の汎用性</strong>: テキスト中心に、画像生成や（対応範囲での）動画生成ワークフロー連携も可能</li>
-        <li><strong>使いどころ</strong>: 日々のドラフト作成、要約、バグ修正、仕様相談、画像指示作成 など</li>
-      </ul>
-    </div>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-video"></i> Gemini（Veo 3 を使うなら）</div>
-      <p class="hint">動画生成が必要なら、Veo 3 へのアクセスが課金理由として明確。</p>
-      <ul style="margin-left:1rem;">
-        <li><strong>強み</strong>: 高品質な動画生成（Veo 3）＋ マルチモーダルでの情報要約</li>
-        <li><strong>使いどころ</strong>: 提案動画・広告素材・SNS用ショート動画の初稿作成</li>
-      </ul>
-    </div>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-feather-alt"></i> Claude（Claude Code を使うなら）</div>
-      <ul style="margin-left:1rem;">
-        <li><strong>強み</strong>: 自然で丁寧な長文・仕様書づくり、Claude Code によるコード読解/生成</li>
-        <li><strong>使いどころ</strong>: 長文レビュー、議事録整備、既存コードの理解とリファクタ相談</li>
-      </ul>
-    </div>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-music"></i> SUNO（音楽）</div>
-      <ul style="margin-left:1rem;">
-        <li><strong>強み</strong>: 生成回数や商用利用の枠が広がる</li>
-        <li><strong>使いどころ</strong>: ショート動画のBGM量産、ブランドトーンに合わせた音源づくり</li>
-      </ul>
-    </div>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-film"></i> 動画生成系（Kling AI / Domo AI など）</div>
-      <p class="hint">動画は課金しないとクオリティや連続利用が厳しいケースが多い。</p>
-      <ul style="margin-left:1rem;">
-        <li><strong>Kling AI</strong>: 高精細な生成動画が話題。素材づくりの即戦力</li>
-        <li><strong>Domo AI</strong>: モーショングラフィックス/変換系ワークフローの補助に</li>
-      </ul>
-    </div>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-robot"></i> Manus（エージェント）</div>
-      <ul style="margin-left:1rem;">
-        <li><strong>強み</strong>: スケジュール実行や外部連携を前提とした自動化タスク</li>
-        <li><strong>使いどころ</strong>: 定型業務の自動化、資料整形、通知/記録の自動運用</li>
-      </ul>
-    </div>
-    <p class="hint">注: この環境ではWeb検索ができないため、上記はあなたの方針・要望に基づくキュレーションです。最新の仕様・提供可否は公式ページでご確認ください。</p>
-  </section>
+  
 
   <!-- 更新履歴 -->
   <section id="section-changelog" class="fade-in">
