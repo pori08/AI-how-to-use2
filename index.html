@@ -634,7 +634,8 @@ section {
   display: block;
   margin-top: var(--spacing-unit);
 }
-iframe, .tiktok-embed {
+iframe {
+
   border-radius: var(--radius);
   box-shadow: 0 8px 20px var(--shadow-color);
   margin: var(--spacing-unit) auto;
@@ -643,6 +644,13 @@ iframe, .tiktok-embed {
 .tiktok-slider{ display:flex; gap: 1rem; overflow-x:auto; padding: .5rem .25rem .75rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
 .tt-slide{ scroll-snap-align: center; flex: 0 0 86%; max-width: 420px; }
 @media (min-width: 768px){ .tt-slide{ flex-basis: 46%; } }
+
+.tt-card{ display:block; padding:1rem 1.2rem; border-radius: var(--radius); background: rgba(255,255,255,0.85); border: 1px solid var(--border-color); box-shadow: 0 6px 16px rgba(15,23,42,0.12); color: inherit; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.tt-card:hover{ transform: translateY(-2px); box-shadow: 0 12px 24px rgba(15,23,42,0.18); }
+.tt-card-title{ font-weight: 600; margin-top: 0.4rem; }
+.tt-card-meta{ font-size: 0.85rem; color: var(--text-color-light); }
+.tt-card-cta{ display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; margin-top: 0.6rem; color: var(--primary-color); }
+
 
 /* Audio list tiles */
 .audio-list{
@@ -753,9 +761,9 @@ footer {
   #backToTop.show{ display:block; }
   #backToTop:hover{ transform: translateY(-2px); box-shadow: 0 16px 32px rgba(2,6,23,.2); }
 
-  /* 更新日表示 */
-  .meta-updated{ margin-top:.6rem; font-weight:700; letter-spacing:.02em; }
-  .meta-updated time{ background: rgba(255,255,255,.9); color:#0b1220; padding:.2rem .5rem; border-radius:8px; border:1px solid rgba(255,255,255,.7); }
+  /* 更新履歴表示 */
+  .changelog-group{ margin:.4rem 0 1rem; }
+  .changelog-group:last-of-type{ margin-bottom:0; }
   .changelog-date{ margin:.4rem 0 .6rem; font-weight:700; color:#334155; }
   .changelog-date time{ background: rgba(108,124,246,.12); border:1px solid rgba(108,124,246,.28); padding:.12rem .4rem; border-radius:6px; }
 </style>
@@ -767,7 +775,6 @@ footer {
 
 <div class="hero-section">
 <h1>無料で試せる生成AI&nbsp;&nbsp;早見ガイド&nbsp;2025</h1>
-<div class="meta-updated">更新: <time id="lastUpdated"></time></div>
 <div class="progress-container">
   <div class="progress-bar" id="progressBar"></div>
 </div>
@@ -800,11 +807,11 @@ footer {
 <tr><td>画像編集</td><td>Nano-Banana</td></tr>
 <tr><td>動画生成</td><td>Veo 3</td></tr>
 <tr><td>音楽生成</td><td>SUNO</td></tr>
-<tr><td>タスク管理</td><td>Notion (AI DB)</td></tr>
+<tr><td>音声生成</td><td>ElevenLabs</td></tr>
+<tr><td>タスク管理</td><td>Notion</td></tr>
 <tr><td>情報整理・要約</td><td>NotebookLM</td></tr>
-<tr><td>デザイン</td><td>Canva (AIデザイン)</td></tr>
-<tr><td>スライド作成</td><td>GenSpark</td></tr>
-<tr><td>資料作成／AIエージェント</td><td>Manus</td></tr>
+<tr><td>デザイン</td><td>Canva / Lovart</td></tr>
+<tr><td>資料作成／AIエージェント</td><td>Manus / GenSpark</td></tr>
 <tr><td>議事録キャプチャ</td><td>tl;dv / tactiq</td></tr>
 <tr><td>字幕作成</td><td>Vrew</td></tr>
 <tr><td>文字起こし</td><td>OpenAI Whisper / Aiko</td></tr>
@@ -939,7 +946,7 @@ footer {
   <div class="content-block">
     <div class="content-block-title"><i class="fas fa-book"></i> NotebookLM (睡眠データ)</div>
     <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">
-      このNotebookLMは、睡眠に関する様々なデータを集約し、分析するためのものです。
+      このNotebookLMは、睡眠に関する様々なデータをアップロードし、作成したページです。
       例えば、睡眠パターン、睡眠の質に影響を与える要因、改善策などを、
       チャットで質問したり、音声を生成して耳で聞くことができます。
       個人の睡眠習慣の改善や、研究データの分析に役立ちます。
@@ -952,25 +959,25 @@ footer {
     <p style="font-size: 0.95rem; color: var(--text-color-light); margin-bottom: 1rem;">※Veo3は映像の完成度が非常に高いことで知られていますが、実は音声の質も素晴らしい仕上がりです。音量をオンにして、ぜひ体感してみてください。</p>
     <div class="tiktok-slider">
       <div class="tt-slide">
-        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466?is_copy_url=1&is_from_webapp=v1" data-video-id="7518380918168456466" style="max-width:420px;">
-          <section>
-            <a target="_blank" href="https://www.tiktok.com/@stanislav_laurier?refer=embed">@stanislav_laurier</a>
-          </section>
-        </blockquote>
+        <a class="tt-card" href="https://www.tiktok.com/@stanislav_laurier/video/7518380918168456466" target="_blank" rel="noopener">
+          <strong class="tt-card-title">Veo 3 シネマティック</strong>
+          <span class="tt-card-meta">@stanislav_laurier / Cinematic look</span>
+          <span class="tt-card-cta">TikTokで見る →</span>
+        </a>
       </div>
       <div class="tt-slide">
-        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@asmraiworks/video/7516993127152930078?is_copy_url=1&is_from_webapp=v1" data-video-id="7516993127152930078" style="max-width:420px;">
-          <section>
-            <a target="_blank" href="https://www.tiktok.com/@asmraiworks?refer=embed">@asmraiworks</a>
-          </section>
-        </blockquote>
+        <a class="tt-card" href="https://www.tiktok.com/@asmraiworks/video/7516993127152930078" target="_blank" rel="noopener">
+          <strong class="tt-card-title">Veo 3 建築ビジュアル</strong>
+          <span class="tt-card-meta">@asmraiworks / Futuristic city</span>
+          <span class="tt-card-cta">TikTokで見る →</span>
+        </a>
       </div>
       <div class="tt-slide">
-        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aiinterview7/video/7522011573141982482?is_copy_url=1&is_from_webapp=v1" data-video-id="7522011573141982482" style="max-width:420px;">
-          <section>
-            <a target="_blank" href="https://www.tiktok.com/@aiinterview7?refer=embed">@aiinterview7</a>
-          </section>
-        </blockquote>
+        <a class="tt-card" href="https://www.tiktok.com/@aiinterview7/video/7522011573141982482" target="_blank" rel="noopener">
+          <strong class="tt-card-title">Veo 3 インタビュースタイル</strong>
+          <span class="tt-card-meta">@aiinterview7 / Studio shot</span>
+          <span class="tt-card-cta">TikTokで見る →</span>
+        </a>
       </div>
     </div>
   </div>
@@ -996,8 +1003,6 @@ footer {
     </div>
   </div>
   <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);">
-    <p style="margin-bottom: var(--spacing-unit); font-size: 1.1rem; color: var(--text-color-light);">さあ、あなたも生成AIを体験してみましょう！</p>
-    <a href="#section-tasks" class="button">AIツールリストを見る</a>
   </div>
   </section>
 
@@ -1008,12 +1013,23 @@ footer {
     <h2><i class="fas fa-history"></i> 更新履歴</h2>
     <div class="content-block">
       <div class="content-block-title"><i class="fas fa-clipboard-list"></i> 最近の変更（AIツール更新）</div>
-      <div class="changelog-date">更新日: <time id="chgGroupDate"></time></div>
-      <ul style="margin-left:1rem;">
-        <li><strong>画像生成</strong>: imageFX・ChatGPTを除外し、<em>Nano-Banana</em>を追加（Stable Diffusionは継続）</li>
-        <li><strong>画像編集</strong>: <em>Nano-Banana</em>を追加</li>
-        <li><strong>シーン別カード</strong>: 画像生成のおすすめに<em>Nano-Banana</em>を反映</li>
-      </ul>
+      
+      <div class="changelog-group">
+        <div class="changelog-date">更新日: <time datetime="2025-09-01">2025-09-01</time></div>
+        <ul style="margin-left:1rem;">
+          <li><strong>画像生成</strong>: imageFX・ChatGPTを除外し、<em>Nano-Banana</em>を追加（Stable Diffusionは継続）</li>
+          <li><strong>画像編集</strong>: <em>Nano-Banana</em>を追加</li>
+          <li><strong>シーン別カード</strong>: 画像生成のおすすめに<em>Nano-Banana</em>を反映</li>
+        </ul>
+      </div>
+
+      <div class="changelog-group">
+        <div class="changelog-date">更新日: <time datetime="2025-09-20">2025-09-20</time></div>
+        <ul style="margin-left:1rem;">
+          <li><strong>音声生成</strong>: <em>ElevenLabs</em>を追加</li>
+          <li><strong>デザイン</strong>: <em>Lovart</em>を追加</li>
+        </ul>
+      </div>
     </div>
   </section>
   
@@ -1021,7 +1037,6 @@ footer {
   <footer>
     <p>&copy; 2025 無料で試せる生成AI 早見ガイド</p>
   </footer>
-  <script async src="https://www.tiktok.com/embed.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", () => {
     const fadeInElements = document.querySelectorAll(".fade-in");
@@ -1071,23 +1086,10 @@ footer {
     window.addEventListener('scroll', toggleBackBtn, { passive:true });
     backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // 更新日を表示（ローカル日付）
-    const lastUpdatedEl = document.getElementById('lastUpdated');
-    if (lastUpdatedEl) {
-      const d = new Date();
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      const iso = `${yyyy}-${mm}-${dd}`;
-      lastUpdatedEl.textContent = iso;
-      lastUpdatedEl.setAttribute('datetime', iso);
-      // 最近の変更（AIツール更新）: グループ日付を同日に設定
-      const chg = document.getElementById('chgGroupDate');
-      if (chg) { chg.textContent = iso; chg.setAttribute('datetime', iso); }
-    }
 
     // 横スクロールUIは撤去済み
   });
   </script>
   <button id="backToTop" aria-label="トップへ">▲</button>
   </body></html>
+
