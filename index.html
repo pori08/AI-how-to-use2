@@ -779,20 +779,48 @@ footer {
   <div class="progress-bar" id="progressBar"></div>
 </div>
 <nav class="page-nav">
+  <a href="#section-changelog">更新履歴</a>
   <a href="#section-tasks">目的別</a>
   <a href="#section-scenes">シーン別</a>
   <a href="#section-examples">活用事例</a>
+  <a href="#section-steps">3ステップ</a>
 </nav>
 </div>
 
 <!-- 固定TOC（ページ上部） -->
   <nav class="toc" aria-label="目次">
+    <a href="#section-changelog">更新履歴</a>
     <a href="#section-tasks">目的別</a>
     <a href="#section-scenes">シーン別</a>
     <a href="#section-examples">活用事例</a>
     <a href="#section-steps">3ステップ</a>
-    <a href="#section-changelog">更新履歴</a>
   </nav>
+
+<!-- 更新履歴 -->
+  <section id="section-changelog" class="fade-in">
+    <h2><i class="fas fa-history"></i> 更新履歴</h2>
+    <div class="content-block">
+      <div class="content-block-title"><i class="fas fa-clipboard-list"></i> 最近の変更（AIツール更新）</div>
+      
+      <div class="changelog-group">
+        <div class="changelog-date">更新日: <time datetime="2025-09-01">2025-09-01</time></div>
+        <ul style="margin-left:1rem;">
+          <li><strong>画像生成</strong>: imageFX・ChatGPTを除外し、<em>Nano-Banana</em>を追加（Stable Diffusionは継続）</li>
+          <li><strong>画像編集</strong>: <em>Nano-Banana</em>を追加</li>
+          <li><strong>シーン別カード</strong>: 画像生成のおすすめに<em>Nano-Banana</em>を反映</li>
+        </ul>
+      </div>
+
+      <div class="changelog-group">
+        <div class="changelog-date">更新日: <time datetime="2025-09-20">2025-09-20</time></div>
+        <ul style="margin-left:1rem;">
+          <li><strong>音声生成</strong>: <em>ElevenLabs</em>を追加</li>
+          <li><strong>動画編集</strong>: CapCat / Filmora を追加</li>
+          <li><strong>デザイン</strong>: <em>Lovart</em>を追加</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
 <!-- ① タスク × AI 対応表 -->
 <section id="section-tasks" class="fade-in">
@@ -806,6 +834,7 @@ footer {
 <tr><td>画像生成</td><td>Nano-Banana / Stable Diffusion</td></tr>
 <tr><td>画像編集</td><td>Nano-Banana</td></tr>
 <tr><td>動画生成</td><td>Veo 3</td></tr>
+<tr><td>動画編集</td><td>CapCat / Filmora</td></tr>
 <tr><td>音楽生成</td><td>SUNO</td></tr>
 <tr><td>音声生成</td><td>ElevenLabs</td></tr>
 <tr><td>タスク管理</td><td>Notion</td></tr>
@@ -813,7 +842,6 @@ footer {
 <tr><td>デザイン</td><td>Canva / Lovart</td></tr>
 <tr><td>資料作成／AIエージェント</td><td>Manus / GenSpark</td></tr>
 <tr><td>議事録キャプチャ</td><td>tl;dv / tactiq</td></tr>
-<tr><td>字幕作成</td><td>Vrew</td></tr>
 <tr><td>文字起こし</td><td>OpenAI Whisper / Aiko</td></tr>
 <tr><td>開発補助</td><td>Gemini CLI</td></tr>
 </tbody></table>
@@ -1005,31 +1033,6 @@ footer {
   </section>
 
 
-
-  <!-- 更新履歴 -->
-  <section id="section-changelog" class="fade-in">
-    <h2><i class="fas fa-history"></i> 更新履歴</h2>
-    <div class="content-block">
-      <div class="content-block-title"><i class="fas fa-clipboard-list"></i> 最近の変更（AIツール更新）</div>
-      
-      <div class="changelog-group">
-        <div class="changelog-date">更新日: <time datetime="2025-09-01">2025-09-01</time></div>
-        <ul style="margin-left:1rem;">
-          <li><strong>画像生成</strong>: imageFX・ChatGPTを除外し、<em>Nano-Banana</em>を追加（Stable Diffusionは継続）</li>
-          <li><strong>画像編集</strong>: <em>Nano-Banana</em>を追加</li>
-          <li><strong>シーン別カード</strong>: 画像生成のおすすめに<em>Nano-Banana</em>を反映</li>
-        </ul>
-      </div>
-
-      <div class="changelog-group">
-        <div class="changelog-date">更新日: <time datetime="2025-09-20">2025-09-20</time></div>
-        <ul style="margin-left:1rem;">
-          <li><strong>音声生成</strong>: <em>ElevenLabs</em>を追加</li>
-          <li><strong>デザイン</strong>: <em>Lovart</em>を追加</li>
-        </ul>
-      </div>
-    </div>
-  </section>
   
   </main>
   <footer>
@@ -1082,11 +1085,12 @@ footer {
       backBtn.classList.toggle('show', (document.documentElement.scrollTop || document.body.scrollTop) > 300);
     };
     window.addEventListener('scroll', toggleBackBtn, { passive:true });
-    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }) );
 
     // 横スクロールUIは撤去済み
   });
   </script>
   <button id="backToTop" aria-label="トップへ">▲</button>
   </body></html>
+
+
